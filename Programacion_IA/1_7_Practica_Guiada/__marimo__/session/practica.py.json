@@ -1,0 +1,67 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.25.2",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "8e505a93226ea905c5f19def20653daa",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"practica-final\">Pr\u00e1ctica Final</h1></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "b626a3aa4b3a59150771b65124930a2f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "==========================================\n PARTE 1: EJERCICIOS Y COMPROBACIONES\n==========================================\n\n1. Producto inexistente: No encontrado\n\n2. Frecuencias: {'la': 2, 'casa': 2, 'es': 2, 'grande': 1, 'y': 1, 'luz': 2}\n   M\u00e1s frecuentes: {'la': 2, 'casa': 2, 'es': 2, 'luz': 2}\n\n3. Ambos d\u00edas: ['Ana', 'Luis']\n   Solo el lunes: []\n\n4. Conjunto sin duplicados: {1, 2, 3}\n\n5. Email Luis: luis@email.com\n\n6. Importe m\u00e1ximo por cliente: {'Ana': 43.96, 'Luis': 186.45, 'Marta': 59.9, 'Jon': 312.0}\n\n7. Ranking:\n   1. Jon (312.0\u20ac)\n   2. Luis (186.45\u20ac)\n   3. Marta (59.9\u20ac)\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "944d86d8cb5bbf6017b8b74f33ebe85b",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "1d459209a45973bea3a3a1b2a04dac00",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>4. TABLA COMPARATIVA DE COLECCIONES</strong></span>\n<table>\n<thead>\n<tr>\n<th>Estructura</th>\n<th>Ejemplo</th>\n<th>\u00bfQu\u00e9 pregunta responde?</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Lista</td>\n<td><code>[10, 25, 12, 10]</code></td>\n<td>\u00bfCu\u00e1l es el orden exacto en el que llegaron estos valores?</td>\n</tr>\n<tr>\n<td>Tupla</td>\n<td><code>(40.41, -3.70)</code></td>\n<td>\u00bfCu\u00e1les son las coordenadas exactas e inmutables?</td>\n</tr>\n<tr>\n<td>Diccionario</td>\n<td><code>{'Ana': 10, 'Jon': 5}</code></td>\n<td>\u00bfCu\u00e1ntos puntos tiene cada jugador por su nombre?</td>\n</tr>\n<tr>\n<td>Conjunto</td>\n<td><code>{'rojo', 'azul'}</code></td>\n<td>\u00bfCu\u00e1les son los colores \u00fanicos, descartando repetidos?</td>\n</tr>\n</tbody>\n</table></span>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}

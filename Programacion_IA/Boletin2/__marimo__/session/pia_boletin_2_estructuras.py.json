@@ -1,0 +1,534 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.25.2",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "3e12ac659f160aad79dcf4cb8e381973",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"boletin-2-estructuras-de-datos-funciones-y-cadenas\">Bolet\u00edn 2 \u00b7 Estructuras de datos, funciones y cadenas</h1>\n<span class=\"paragraph\"><strong>Programaci\u00f3n de IA \u00b7 Unidad 1 \u00b7 Cap\u00edtulos 1.6 a 1.9</strong>\n(listas y tuplas, diccionarios y conjuntos, funciones y cadenas)</span>\n<span class=\"paragraph\">Este bolet\u00edn tiene <strong>10 ejercicios</strong>. Los tres primeros trabajan listas y\ntuplas; el cuarto y el quinto, diccionarios y conjuntos; del sexto al octavo,\nfunciones; el noveno, cadenas; y el d\u00e9cimo combina todo lo anterior.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "fdc600b708a194c60bd93540e92b6c23",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "39e23e37cb33bb85137f5bbb0dac4f83",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"como-trabajar-con-este-boletin\">C\u00f3mo trabajar con este bolet\u00edn</h2>\n<span class=\"paragraph\"><strong>Estructura de cada ejercicio.</strong></span>\n<ol>\n<li>Una celda con el <strong>enunciado</strong>.</li>\n<li>Una celda de <strong>c\u00f3digo</strong> con los datos ya escritos y huecos para tu soluci\u00f3n.\n   Escribe tu c\u00f3digo debajo de cada apartado.</li>\n<li>En algunos ejercicios, una celda <strong>\u00abTu respuesta\u00bb</strong>: es texto en Markdown.\n   Haz <strong>doble clic</strong> sobre ella para editarla y escribe tu explicaci\u00f3n.</li>\n</ol>\n<span class=\"paragraph\"><strong>Reglas de marimo que debes conocer.</strong></span>\n<ul>\n<li>En marimo <strong>un nombre solo puede crearse en una celda</strong>: eso incluye\n  variables, variables de un <code>for</code>, funciones y clases. Si dos celdas crean el\n  mismo nombre, marimo marca un error. La soluci\u00f3n es usar nombres distintos en\n  cada ejercicio o empezar el nombre por <code>_</code> (<code>_total</code>), que lo deja como\n  privado de esa celda.</li>\n<li><strong>No modifiques</strong> las variables de datos que aparecen al principio de cada\n  celda, salvo que el enunciado lo pida.</li>\n<li>Muestra los resultados con <code>print()</code>. Aparecen en la salida de la celda.</li>\n<li>No uses <code>input()</code>: los datos que \"escribir\u00eda una persona\" ya est\u00e1n en\n  variables.</li>\n<li>La <strong>primera celda</strong> (<code>import marimo as mo</code>) es necesaria para que\n  funcionen las celdas de texto: no la borres ni la modifiques. En VS Code\n  se ve aunque est\u00e9 marcada como oculta.</li>\n<li>Antes de entregar, comprueba que <strong>no queda ninguna celda con error</strong>.</li>\n</ul>\n<span class=\"paragraph\"><strong>Qu\u00e9 se valora.</strong> Cada ejercicio punt\u00faa sobre 1 punto. Se valora que el\nresultado sea correcto, que el c\u00f3digo est\u00e9 <strong>comentado y sea legible</strong> (nombres\ndescriptivos) y que <strong>justifiques</strong> las decisiones cuando el enunciado lo pide.\nUn resultado correcto sin explicaci\u00f3n no obtiene la puntuaci\u00f3n completa.</span>\n<span class=\"paragraph\"><strong>Entrega.</strong> Guarda el archivo y entr\u00e9galo en la tarea correspondiente de Moodle.</span>\n<span class=\"paragraph\"><strong>Ampliaciones.</strong> Los apartados marcados como <em>Ampliaci\u00f3n (opcional)</em> no son\nnecesarios para entregar el bolet\u00edn.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "85f0e50755362a13305320cfadd1b5db",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><hr />\n<h1 id=\"bloque-1-listas-y-tuplas\">Bloque 1 \u00b7 Listas y tuplas</h1>\n<h2 id=\"ejercicio-1-los-pedidos-del-dia\">Ejercicio 1 \u00b7 Los pedidos del d\u00eda</h2>\n<span class=\"paragraph\"><em>Nivel: b\u00e1sico \u00b7 Cap\u00edtulo 1.6</em></span>\n<span class=\"paragraph\">La caja de TechShop ha registrado los importes de los pedidos del d\u00eda en una\nlista, en el orden en que llegaron.</span>\n<span class=\"paragraph\"><strong>Se pide</strong>, en este orden (la lista se va modificando):</span>\n<ol>\n<li>Muestra el <strong>primer</strong> importe, el <strong>\u00faltimo</strong> (con \u00edndice negativo) y los\n   <strong>tres primeros</strong> (con un rebanado).</li>\n<li>Muestra la lista en <strong>orden inverso</strong> con un rebanado, sin modificarla.</li>\n<li>Actualiza la lista: llega un pedido de <code>75.00</code> (a\u00f1\u00e1delo <strong>al final</strong>),\n   otro de <code>15.00</code> que debe quedar en la <strong>posici\u00f3n 2</strong> (ins\u00e9rtalo) y se anula\n   el pedido de <code>59.90</code> (elim\u00ednalo por su valor). Muestra la lista y su\n   longitud.</li>\n<li>Con la lista ya actualizada, muestra el total, la media (con dos decimales),\n   el mayor y el menor.</li>\n<li>Muestra un <strong>ranking</strong> con los tres importes mayores, de mayor a menor,\n   <strong>sin modificar</strong> la lista. Comprueba que la lista conserva su orden.</li>\n</ol>\n<span class=\"paragraph\">En \u00abTu respuesta\u00bb: \u00bfqu\u00e9 valor devuelve <code>lista.sort()</code>? \u00bfPor qu\u00e9 escribir\n<code>ranking = importes_dia.sort()</code> es un error t\u00edpico y qu\u00e9 tendr\u00eda <code>ranking</code>?</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "8e1c509c469cb39599ba9251538fc0cd",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Primer importe: 43.96\n\u00daltimo importe: 94.38\nTres primeros: [43.96, 186.45, 59.9]\nOrden inverso: [94.38, 27.5, 312.0, 59.9, 186.45, 43.96]\nLista actualizada: [43.96, 186.45, 15.0, 312.0, 27.5, 94.38, 75.0]\nN\u00famero de pedidos: 7\nTotal: 754.29\nMedia: 107.76\nMayor importe: 312.0\nMenor importe: 15.0\nTres importes mayores: [312.0, 186.45, 94.38]\nLa lista conserva su orden: [43.96, 186.45, 15.0, 312.0, 27.5, 94.38, 75.0]\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "Xref",
+      "code_hash": "d9200032e74703f8ea321001f5cced35",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Tu respuesta</strong></span>\n<span class=\"paragraph\">lista.sort() ordena la lista en el mismo sitio y nos devuelve None.\nranking = importes_dia.sort() modifica importes_dia y deja\nranking con el valor de None; no guarda la lista ordenada. Para obtener una\nlista nueva ordenada sin alterar la original, podemos  usar\nranking = sorted(importes_dia, reverse=True).</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "afbac0aa784d5219633b574ad3c62065",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"ejercicio-2-copia-o-referencia-y-tuplas\">Ejercicio 2 \u00b7 \u00bfCopia o referencia? Y tuplas</h2>\n<span class=\"paragraph\"><em>Nivel: medio \u00b7 Cap\u00edtulo 1.6</em></span>\n<span class=\"paragraph\">Un compa\u00f1ero ha escrito este c\u00f3digo para calcular los precios de una oferta del\n10 %, pero despu\u00e9s de ejecutarlo <strong>los precios originales tambi\u00e9n han\ncambiado</strong>:</span>\n<div class=\"language-python codehilite\"><pre><span></span><code><span class=\"n\">precios</span> <span class=\"o\">=</span> <span class=\"p\">[</span><span class=\"mf\">100.0</span><span class=\"p\">,</span> <span class=\"mf\">250.0</span><span class=\"p\">,</span> <span class=\"mf\">80.0</span><span class=\"p\">]</span>\n<span class=\"n\">precios_oferta</span> <span class=\"o\">=</span> <span class=\"n\">precios</span>\n<span class=\"k\">for</span> <span class=\"n\">posicion</span> <span class=\"ow\">in</span> <span class=\"nb\">range</span><span class=\"p\">(</span><span class=\"nb\">len</span><span class=\"p\">(</span><span class=\"n\">precios_oferta</span><span class=\"p\">)):</span>\n    <span class=\"n\">precios_oferta</span><span class=\"p\">[</span><span class=\"n\">posicion</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"n\">precios_oferta</span><span class=\"p\">[</span><span class=\"n\">posicion</span><span class=\"p\">]</span> <span class=\"o\">*</span> <span class=\"mf\">0.9</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">precios</span><span class=\"p\">)</span>         <span class=\"c1\"># los originales han cambiado</span>\n</code></pre></div>\n<span class=\"paragraph\"><strong>Se pide:</strong></span>\n<ol>\n<li>Explica en \u00abTu respuesta\u00bb por qu\u00e9 ocurre.</li>\n<li>Escribe una versi\u00f3n correcta con <code>.copy()</code> y un bucle. Muestra las dos\n   listas y comprueba con <code>is</code> que son objetos distintos.</li>\n<li>Escribe otra versi\u00f3n correcta con una <em>comprehension</em> que cree la lista de\n   oferta (redondea a dos decimales). Muestra las dos listas.</li>\n<li>Un producto se guarda como tupla <code>(c\u00f3digo, nombre, precio)</code>. <strong>Desempaqu\u00e9tala</strong>\n   en tres variables y crea una <strong>nueva</strong> tupla con el precio subido un 10 %.</li>\n</ol>\n<span class=\"paragraph\">En \u00abTu respuesta\u00bb: \u00bfqu\u00e9 error produce <code>producto[2] = 27.0</code> y por qu\u00e9 una tupla\nes adecuada para registrar un producto del cat\u00e1logo? (No ejecutes esa l\u00ednea.)</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "c932d3d05274792b52f91708d002ca7a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Precios originales: [100.0, 250.0, 80.0]\nOferta con copia y bucle: [90.0, 225.0, 72.0]\nSon objetos distintos: True\nPrecios originales: [100.0, 250.0, 80.0]\nOferta con comprehension: [90.0, 225.0, 72.0]\nProducto original: ('TS-0042', 'Rat\u00f3n inal\u00e1mbrico', 24.9)\nProducto con subida del 10 %: ('TS-0042', 'Rat\u00f3n inal\u00e1mbrico', 27.39)\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "9d438bff12514c63c7c88d2ce445a3da",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Tu respuesta</strong></span>\n<span class=\"paragraph\">En el c\u00f3digo original, precios_oferta = precios NO crea una lista nueva:\nlas dos variables se refieren al mismo objeto. Al modificar los elementos a\ntrav\u00e9s de precios_oferta, cambian los que se ven en\nprecios.</span>\n<span class=\"paragraph\">producto[2] = 27.0 nos da un TypeError porque las tuplas no se pueden mutar:\nno nos permiten darle un valor a una de sus posiciones. Una tupla es adecuada\npara un producto del cat\u00e1logo porque agrupa sus campos en un registro de\nestructura fija y evita cambios accidentales; para actualizarlo se crea una\ntupla nueva.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "0829caf15f2b6a5fdea471ef61777aa2",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"ejercicio-3-el-catalogo-en-tres-listas\">Ejercicio 3 \u00b7 El cat\u00e1logo en tres listas</h2>\n<span class=\"paragraph\"><em>Nivel: medio \u00b7 Cap\u00edtulo 1.6</em></span>\n<span class=\"paragraph\">Tres listas paralelas describen el cat\u00e1logo: la posici\u00f3n <code>i</code> de cada lista\ncorresponde al mismo producto.</span>\n<span class=\"paragraph\"><strong>Se pide</strong>, con <em>comprehensions</em> cuando se indique:</span>\n<ol>\n<li><code>precios_iva</code>: lista con cada precio m\u00e1s el 21 % de IVA, redondeado a dos\n   decimales (<em>comprehension</em>).</li>\n<li><code>productos_caros</code>: lista de los nombres de los productos que cuestan m\u00e1s de\n   100 \u20ac (<em>comprehension</em> con <code>if</code>, y <code>zip</code> para recorrer nombres y precios).</li>\n<li>Con <code>enumerate</code> (empezando en 1), muestra el cat\u00e1logo as\u00ed:\n   <code>1. teclado \u00b7 43.96 \u20ac</code>.</li>\n<li><code>sin_existencias</code>: lista de los productos con 0 existencias (usa <code>zip</code>).</li>\n<li>Con <code>any</code> y <code>all</code>: \u00bfhay alg\u00fan producto de m\u00e1s de 300 \u20ac? \u00bfTodos los precios\n   son mayores que cero? Muestra los dos resultados.</li>\n</ol>\n<span class=\"paragraph\">En \u00abTu respuesta\u00bb: \u00bfqu\u00e9 ocurrir\u00eda con el apartado 4 si <code>existencias</code> tuviera\nsolo 4 valores? \u00bfPor qu\u00e9 puede ser peligroso?</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "3c0e0cebc8d4f66b7f5b053646c98b1c",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Precios con IVA: [53.19, 225.6, 72.48, 377.52, 33.27]\nProductos caros: ['monitor', 'port\u00e1til']\n1. teclado \u00b7 43.96 \u20ac\n2. monitor \u00b7 186.45 \u20ac\n3. webcam \u00b7 59.90 \u20ac\n4. port\u00e1til \u00b7 312.00 \u20ac\n5. hub \u00b7 27.50 \u20ac\nSin existencias: ['monitor', 'hub']\n\u00bfHay alg\u00fan producto de m\u00e1s de 300 \u20ac?: True\n\u00bfTodos los precios son mayores que cero?: True\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "8b30f39fbe3b4cd511218dbf7547b824",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Tu respuesta</strong></span>\n<span class=\"paragraph\">Si existencias tuviera solo 4 valores, zip(nombres_catalogo, existencias_catalogo) solo emparejar\u00eda los primeros 4 nombres con los 4 valores. El \u00faltimo producto quedar\u00eda sin comprobar, porque zip se corta al elemento m\u00e1s corto y no lanza error. En ese caso, sin_existencias podr\u00eda quedar incompleta y se perder\u00eda informaci\u00f3n.</span>\n<span class=\"paragraph\">Es peligroso porque este tipo de error pasa \u201csilenciosamente\u201d: el programa sigue funcionando, pero con datos incompletos. En un cat\u00e1logo real, eso puede provocar que un producto con existencias cero no se detecte o que un an\u00e1lisis de datos sea incorrecto sin avisar al usuario.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "c1a3eb39ac22098961aa1e5f0e4844ee",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><hr />\n<h1 id=\"bloque-2-diccionarios-y-conjuntos\">Bloque 2 \u00b7 Diccionarios y conjuntos</h1>\n<h2 id=\"ejercicio-4-contar-acumular-y-agrupar\">Ejercicio 4 \u00b7 Contar, acumular y agrupar</h2>\n<span class=\"paragraph\"><em>Nivel: medio \u00b7 Cap\u00edtulo 1.7</em></span>\n<span class=\"paragraph\">La tabla de pedidos de la semana es una <strong>lista de diccionarios</strong>: cada pedido\ntiene <code>cliente</code>, <code>producto</code>, <code>importe</code> y <code>dia</code>.</span>\n<span class=\"paragraph\"><strong>Se pide:</strong></span>\n<ol>\n<li><code>gasto_por_cliente</code>: diccionario <code>cliente \u2192 total gastado</code> (acumular).</li>\n<li><code>pedidos_por_dia</code>: diccionario <code>d\u00eda \u2192 n\u00famero de pedidos</code> (contar).</li>\n<li><code>productos_por_cliente</code>: diccionario <code>cliente \u2192 lista de productos</code>\n   comprados, en orden de llegada (agrupar).</li>\n<li>El cliente que <strong>m\u00e1s</strong> ha gastado y su gasto (con <code>max</code> y <code>key=</code>).</li>\n<li>El gasto de <code>\"Eva\"</code>, que no ha comprado, sin que el programa falle: muestra\n   <code>0.0</code>.</li>\n</ol>\n<span class=\"paragraph\">En \u00abTu respuesta\u00bb: \u00bfpor qu\u00e9 en los apartados 1 y 2 se usa <code>get</code> con un valor\npor defecto? \u00bfQu\u00e9 pasar\u00eda en el apartado 5 con <code>gasto_por_cliente[\"Eva\"]</code>?</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "iLit",
+      "code_hash": "544f8541b3495f0c1fd8a662080ec32e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Gasto por cliente: {'Ana': 115.42000000000002, 'Luis': 213.95, 'Marta': 59.9, 'Jon': 312.0}\nPedidos por d\u00eda: {'lunes': 2, 'martes': 3, 'mi\u00e9rcoles': 2}\nProductos por cliente: {'Ana': ['teclado', 'hub', 'teclado'], 'Luis': ['monitor', 'hub'], 'Marta': ['webcam'], 'Jon': ['port\u00e1til']}\nCliente que m\u00e1s ha gastado: Jon (312.00 \u20ac)\nGasto de Eva: 0.0\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "ZHCJ",
+      "code_hash": "308fe471ca30d8c5efa6d86cb484b0e2",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Se usa get(..., valor) porque la clave puede aparecer por primera vez; si intentamos leerla antes de existir, Python da KeyError. Con get inicializamos el valor en 0.0 o 0 y luego sumamos/contamos.\nEn el apartado 5, gasto_por_cliente[\"Eva\"] falla porque \"Eva\" no existe en el diccionario. En cambio, gasto_por_cliente.get(\"Eva\", 0.0) devuelve 0.0 y no rompe el programa.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ROlb",
+      "code_hash": "bb183ab185bec14566e3710eba9687ef",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"ejercicio-5-conjuntos-y-eleccion-de-estructura\">Ejercicio 5 \u00b7 Conjuntos y elecci\u00f3n de estructura</h2>\n<span class=\"paragraph\"><em>Nivel: medio \u00b7 Cap\u00edtulo 1.7</em></span>\n<span class=\"paragraph\">TechShop registra qu\u00e9 clientes compran cada d\u00eda. Las listas <strong>pueden tener\nrepetidos</strong> (un cliente puede comprar dos veces el mismo d\u00eda).</span>\n<span class=\"paragraph\"><strong>Se pide:</strong></span>\n<ol>\n<li>Convierte cada lista en un conjunto y muestra, para cada d\u00eda, el n\u00famero de\n   <strong>pedidos</strong> (longitud de la lista) y el de <strong>clientes distintos</strong>\n   (longitud del conjunto).</li>\n<li>Clientes que compraron el lunes <strong>y</strong> el martes.</li>\n<li>Clientes que compraron <strong>alg\u00fan</strong> d\u00eda de los tres.</li>\n<li>Clientes que compraron <strong>solo</strong> el lunes (ni el martes ni el mi\u00e9rcoles).</li>\n<li>Clientes que compraron el lunes <strong>o</strong> el martes, pero <strong>no ambos</strong>.</li>\n<li>En \u00abTu respuesta\u00bb, completa la tabla: para cada pregunta, indica qu\u00e9\n   estructura usar\u00edas (lista, tupla, diccionario o conjunto) y por qu\u00e9.</li>\n</ol></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "qnkX",
+      "code_hash": "5fbc611a0403f8b4a59bee4c4007c3b0",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Lunes: pedidos = 4 clientes distintos = 3\nMartes: pedidos = 4 clientes distintos = 3\nMi\u00e9rcoles: pedidos = 3 clientes distintos = 3\nClientes que compraron el lunes y el martes: ['Luis']\nClientes que compraron alg\u00fan d\u00eda: ['Ana', 'Eva', 'Jon', 'Luis', 'Marta']\nClientes que compraron solo el lunes: ['Eva']\nClientes que compraron lunes o martes, pero no ambos: ['Ana', 'Eva', 'Jon', 'Marta']\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "TqIu",
+      "code_hash": "c4a69ebc25316a4ab4ed6ff73e0cab57",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Tu respuesta</strong></span>\n<table>\n<thead>\n<tr>\n<th>Pregunta</th>\n<th>Estructura</th>\n<th>Por qu\u00e9</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Guardar los importes de la semana en el orden en que llegaron</td>\n<td>lista</td>\n<td>Nos deja guardar valores repetidos y conserva el orden de llegada.</td>\n</tr>\n<tr>\n<td>Saber a qu\u00e9 clientes hemos enviado un cup\u00f3n, sin repetir ninguno</td>\n<td>conjunto</td>\n<td>Un conjunto elimina duplicados y es ideal para comprobar pertenencia o hacer operaciones como uni\u00f3n e intersecci\u00f3n.</td>\n</tr>\n<tr>\n<td>Guardar la latitud y la longitud de una tienda</td>\n<td>tupla</td>\n<td>Es un par fijo de valores que est\u00e1n relacionados, con un orden espec\u00edfico: (latitud, longitud).</td>\n</tr>\n<tr>\n<td>Consultar el precio de un producto a partir de su nombre</td>\n<td>diccionario</td>\n<td>Permite asociar cada producto a su precio y acceder al valor directamente con la clave del nombre.</td>\n</tr>\n<tr>\n<td>Contar cu\u00e1ntas rese\u00f1as ha recibido cada producto</td>\n<td>diccionario</td>\n<td>Cada producto es una clave y el valor puede ser el n\u00famero de rese\u00f1as acumuladas.</td>\n</tr>\n</tbody>\n</table></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Vxnm",
+      "code_hash": "6881c69b0217df3a65748337fe9fa864",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><hr />\n<h1 id=\"bloque-3-funciones\">Bloque 3 \u00b7 Funciones</h1>\n<h2 id=\"ejercicio-6-mostrar-no-es-devolver\">Ejercicio 6 \u00b7 Mostrar no es devolver</h2>\n<span class=\"paragraph\"><em>Nivel: b\u00e1sico \u00b7 Cap\u00edtulo 1.8</em></span>\n<span class=\"paragraph\">Esta funci\u00f3n calcula un precio con IVA, pero <strong>no se puede usar en un c\u00e1lculo</strong>:</span>\n<div class=\"language-python codehilite\"><pre><span></span><code><span class=\"k\">def</span><span class=\"w\"> </span><span class=\"nf\">precio_con_iva</span><span class=\"p\">(</span><span class=\"n\">precio</span><span class=\"p\">,</span> <span class=\"n\">iva</span><span class=\"o\">=</span><span class=\"mf\">0.21</span><span class=\"p\">):</span>\n    <span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"nb\">round</span><span class=\"p\">(</span><span class=\"n\">precio</span> <span class=\"o\">*</span> <span class=\"p\">(</span><span class=\"mi\">1</span> <span class=\"o\">+</span> <span class=\"n\">iva</span><span class=\"p\">),</span> <span class=\"mi\">2</span><span class=\"p\">))</span>\n\n\n<span class=\"n\">total</span> <span class=\"o\">=</span> <span class=\"n\">precio_con_iva</span><span class=\"p\">(</span><span class=\"mi\">100</span><span class=\"p\">)</span> <span class=\"o\">+</span> <span class=\"n\">precio_con_iva</span><span class=\"p\">(</span><span class=\"mi\">50</span><span class=\"p\">)</span>   <span class=\"c1\"># TypeError</span>\n</code></pre></div>\n<span class=\"paragraph\"><strong>Se pide:</strong></span>\n<ol>\n<li>Escribe una versi\u00f3n correcta de <code>precio_con_iva</code> que <strong>devuelva</strong> el valor,\n   con una <em>docstring</em> de una l\u00ednea y el IVA como par\u00e1metro con valor por\n   defecto <code>0.21</code>. Calcula con ella <code>total</code> para 100 \u20ac y 50 \u20ac y mu\u00e9stralo.</li>\n<li>Ll\u00e1mala una vez con un IVA del 10 %, pas\u00e1ndolo <strong>por nombre</strong>.</li>\n<li>Escribe <code>estado_stock(unidades)</code>, que <strong>devuelva</strong> <code>\"Agotado\"</code> si no hay\n   unidades, <code>\"Pocas unidades\"</code> si hay 5 o menos y <code>\"Disponible\"</code> en otro caso.\n   Usa <code>return</code> en cada caso (sin variable auxiliar). Pru\u00e9bala con 0, 3 y 20.</li>\n<li>Escribe <code>resumen_importes(importes)</code>, que devuelva <strong>dos valores</strong>: el total y\n   la media. Rec\u00edbelos con desempaquetado y mu\u00e9stralos.</li>\n<li>Escribe <strong>dos <code>assert</code></strong> que comprueben <code>precio_con_iva</code> y uno que compruebe\n   <code>estado_stock</code>.</li>\n</ol>\n<span class=\"paragraph\">En \u00abTu respuesta\u00bb: \u00bfqu\u00e9 recibe <code>total</code> en el c\u00f3digo original y por qu\u00e9 da\nerror? \u00bfQu\u00e9 diferencia hay entre <code>print</code> y <code>return</code>?</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "DnEU",
+      "code_hash": "5e822de2996b3a9256ed8456ff4b6378",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Total de 100 \u20ac y 50 \u20ac con IVA: 181.5\nTotal de la lista con IVA: 351.27\n100 \u20ac con IVA del 10%: 110.0\nStock 0: Agotado\nStock 3: Pocas unidades\nStock 20: Disponible\nTotal: 290.31\nMedia: 96.77\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "ulZA",
+      "code_hash": "22b2f09b6aef04a42cac422da9257da5",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Tu respuesta</strong></span>\n<span class=\"paragraph\">En el c\u00f3digo original, precio_con_iv a solo usa print(), as\u00ed que no devuelve ning\u00fan n\u00famero. print() muestra el valor en pantalla, pero en realidad devuelve None. Por eso la expresi\u00f3n total = precio_con_iva(100) + precio_con_iva(50) falla con un TypeError, porque intenta sumar None + None.</span>\n<span class=\"paragraph\">La diferencia es clara: print() sirve para mostrar un resultado, mientras que return sirve para devolverlo y poder usarlo en c\u00e1lculos, asignaciones o comparaciones. Por eso, la versi\u00f3n correcta de la funci\u00f3n debe return round(precio * (1 + iva), 2), y entonces total puede guardar ese valor y operar con \u00e9l.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ecfG",
+      "code_hash": "47f4490739ce7c61c68f2f3fba1939a7",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"ejercicio-7-refactorizar-no-repitas-codigo\">Ejercicio 7 \u00b7 Refactorizar: no repitas c\u00f3digo</h2>\n<span class=\"paragraph\"><em>Nivel: medio \u00b7 Cap\u00edtulo 1.8</em></span>\n<span class=\"paragraph\">La caja calcula el total de tres pedidos copiando el mismo c\u00f3digo tres veces.\nLa regla es: si el subtotal supera 50 \u20ac, se aplica un 5 % de descuento; despu\u00e9s\nse a\u00f1ade el 21 % de IVA y se redondea a dos decimales.</span>\n<span class=\"paragraph\"><strong>Se pide:</strong></span>\n<ol>\n<li>Escribe una funci\u00f3n <code>total_pedido(precio, unidades, ...)</code> que aplique esa\n   regla. El umbral del descuento (<code>50</code>), el descuento (<code>0.05</code>) y el IVA\n   (<code>0.21</code>) deben ser <strong>par\u00e1metros con valor por defecto</strong>. Incluye docstring.</li>\n<li>Calcula con ella los totales de los tres pedidos y gu\u00e1rdalos en\n   <code>total_a_func</code>, <code>total_b_func</code> y <code>total_c_func</code>.</li>\n<li>Comprueba con <code>assert</code> que son <strong>exactamente iguales</strong> a los totales del\n   c\u00f3digo original, y muestra <code>Refactorizaci\u00f3n correcta</code>.</li>\n</ol>\n<span class=\"paragraph\">En \u00abTu respuesta\u00bb: \u00bfqu\u00e9 ventaja concreta tiene tu versi\u00f3n si ma\u00f1ana la regla\ndel descuento pasa del 5 % al 8 %? \u00bfQu\u00e9 ha cambiado y qu\u00e9 se ha mantenido en la\nrefactorizaci\u00f3n?</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Pvdt",
+      "code_hash": "14cce9ad2937ff75bd86efd34e448f99",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Originales: 85.87 30.25 114.84\nTotales refactorizados: 85.87 30.25 114.84\nRefactorizaci\u00f3n correcta\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "ZBYS",
+      "code_hash": "c5b2fdee0d08ec94323ed2b330d1cec2",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Tu respuesta</strong></span>\n<span class=\"paragraph\">Si el descuento pasa del 5 % al 8 %, basta con cambiar el valor por defecto del par\u00e1metro <code>descuento</code> en un solo sitio. La refactorizaci\u00f3n elimina la repetici\u00f3n y facilita mantener la regla; se mantiene el mismo c\u00e1lculo y los mismos resultados para los tres pedidos.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "aLJB",
+      "code_hash": "6f4022726437df4d052053f5324074be",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"ejercicio-8-ambito-y-la-trampa-de-la-lista-por-defecto\">Ejercicio 8 \u00b7 \u00c1mbito y la trampa de la lista por defecto</h2>\n<span class=\"paragraph\"><em>Nivel: medio \u00b7 Cap\u00edtulo 1.8</em></span>\n<span class=\"paragraph\"><strong>Parte A \u00b7 \u00c1mbito.</strong> Lee el c\u00f3digo de la celda, <strong>predice</strong> qu\u00e9 mostrar\u00e1n los\ndos <code>print</code> y escribe tu predicci\u00f3n en el comentario. Despu\u00e9s ejecuta y\nexplica el resultado.</span>\n<span class=\"paragraph\"><strong>Parte B \u00b7 La lista por defecto.</strong> La funci\u00f3n <code>registrar_venta_mala</code> de la\ncelda guarda las ventas de un d\u00eda en una lista que es su valor por defecto.\nLl\u00e1mala para dos d\u00edas distintos y observa qu\u00e9 ocurre. Despu\u00e9s:</span>\n<ol>\n<li>Explica en \u00abTu respuesta\u00bb el fallo.</li>\n<li>Escribe <code>registrar_venta</code> corregida (con <code>None</code> como valor por defecto) y\n   demuestra con dos llamadas que cada d\u00eda tiene su propia lista.</li>\n</ol></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nHfw",
+      "code_hash": "27ef23d11e196a8708f65f660ede7034",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "80.0 0.1\nLunes: [20.0, 35.0]\nMartes: [20.0, 35.0]\nLunes (corregido): [20.0]\nMartes (corregido): [35.0]\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "xXTn",
+      "code_hash": "f86047c6cd0d58d786bc4e62ec201a43",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Tu respuesta</strong></span>\n<span class=\"paragraph\">La funci\u00f3n que est\u00e1 incorrecta utiliza una lista mutable por defecto. Lo que Python hace es crear esa lista una sola vez y reutilizarla en cada llamada; por eso las ventas del lunes y del martes terminan en la misma lista: [20.0, 35.0].</span>\n<span class=\"paragraph\">La versi\u00f3n corregida usa None como valor por defecto y crea una lista nueva dentro de la funci\u00f3n. As\u00ed, las dos llamadas producen listas independientes: [20.0] y [35.0].</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "AjVT",
+      "code_hash": "7b5bc48bf3e4c9bc91c0d97c9c6df2da",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><hr />\n<h1 id=\"bloque-4-cadenas\">Bloque 4 \u00b7 Cadenas</h1>\n<h2 id=\"ejercicio-9-analizar-resenas\">Ejercicio 9 \u00b7 Analizar rese\u00f1as</h2>\n<span class=\"paragraph\"><em>Nivel: medio \u00b7 Cap\u00edtulo 1.9</em></span>\n<span class=\"paragraph\">TechShop ha recibido cuatro rese\u00f1as con espacios sobrantes, may\u00fasculas y signos\nde puntuaci\u00f3n.</span>\n<span class=\"paragraph\"><strong>Se pide:</strong></span>\n<ol>\n<li>Escribe <code>normalizar(texto)</code>, que devuelva el texto sin espacios en los\n   extremos, en min\u00fasculas y <strong>sin</strong> los signos <code>. , ; ! \u00a1 ? \u00bf</code>.</li>\n<li>Con <code>split</code> y un diccionario, cuenta las palabras de <strong>todas</strong> las rese\u00f1as\n   ya normalizadas, ignorando las de <code>palabras_vacias</code>.</li>\n<li>Muestra las <strong>tres</strong> palabras m\u00e1s frecuentes con su recuento, ordenadas de\n   mayor a menor recuento y, si empatan, por orden alfab\u00e9tico. Para ordenar,\n   puedes usar <code>sorted(conteo.items(), key=lambda par: (-par[1], par[0]))</code>\n   (es una ampliaci\u00f3n del cap\u00edtulo 1.8: puedes copiarla).</li>\n<li>Cuenta cu\u00e1ntas rese\u00f1as contienen alguna de las palabras de queja\n   (<code>roto</code>, <code>tarde</code>, <code>mal</code>), usando <code>any</code>.</li>\n</ol>\n<span class=\"paragraph\">En \u00abTu respuesta\u00bb: \u00bfpor qu\u00e9 hay que normalizar <strong>antes</strong> de contar? \u00bfCu\u00e1ntas\npalabras distintas habr\u00eda contado sin normalizar? \u00bfPor qu\u00e9 <code>palabras_vacias</code> es\nun conjunto?</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "pHFh",
+      "code_hash": "016ad7eb901f46cfc66dee402fcdac54",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Rese\u00f1as normalizadas: ['muy buen teclado lleg\u00f3 r\u00e1pido', 'el monitor lleg\u00f3 roto muy mal', 'buen precio y buen env\u00edo', 'teclado muy bueno el env\u00edo tarde']\nRecuento de palabras: {'buen': 3, 'teclado': 2, 'lleg\u00f3': 2, 'r\u00e1pido': 1, 'monitor': 1, 'roto': 1, 'mal': 1, 'precio': 1, 'env\u00edo': 2, 'bueno': 1, 'tarde': 1}\nTres palabras m\u00e1s frecuentes: [('buen', 3), ('env\u00edo', 2), ('lleg\u00f3', 2)]\nRese\u00f1as con alguna queja: 2\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "NCOB",
+      "code_hash": "f77de35a2cd2763a2bc9d2eb7f83d56d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Tu respuesta</strong></span>\n<span class=\"paragraph\">Hay que normalizar antes de contar para que una palabra escrita con may\u00fasculas o signos de puntuaci\u00f3n se cuente como la misma palabra. Sin normalizar, habr\u00eda contado 18 palabras distintas (sin contar las palabras vac\u00edas que coinciden exactamente). palabras_vacias es un conjunto porque evita duplicados y permite comprobar r\u00e1pidamente si una palabra se debe ignorar.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "aqbW",
+      "code_hash": "107fa31df3b6bea7714f91751872ca05",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"ejercicio-10-el-parte-de-pedidos-ejercicio-integrador\">Ejercicio 10 \u00b7 El parte de pedidos (ejercicio integrador)</h2>\n<span class=\"paragraph\"><em>Nivel: integrador \u00b7 Cap\u00edtulos 1.6 a 1.9</em></span>\n<span class=\"paragraph\">Soporte recibe los pedidos como l\u00edneas de texto con campos separados por <code>|</code>,\ncon espacios y may\u00fasculas irregulares. El importe usa coma decimal y el s\u00edmbolo\ndel euro, y las unidades van pegadas al producto (<code>teclado x2</code>):</span>\n<div class=\"language-text codehilite\"><pre><span></span><code>TS-0042 | ana garc\u00eda | teclado x2 | 43,96 \u20ac\n</code></pre></div>\n<span class=\"paragraph\">El \u00faltimo campo es el <strong>precio de una unidad</strong>.</span>\n<span class=\"paragraph\"><strong>Se pide:</strong></span>\n<ol>\n<li><code>convertir_importe(texto)</code>: recibe <code>\"43,96 \u20ac\"</code> y devuelve <code>43.96</code> (<code>float</code>).</li>\n<li><code>parsear_linea(linea)</code>: devuelve un diccionario con <code>codigo</code>, <code>cliente</code>\n   (con la primera letra de cada palabra en may\u00fascula), <code>producto</code>, <code>unidades</code>\n   (<code>int</code>), <code>precio_unitario</code> (<code>float</code>) y <code>total</code> (redondeado a 2 decimales).\n   Usa <code>split(\"|\")</code>, <code>strip</code>, <code>title</code> y <code>partition</code>.</li>\n<li><code>registros</code>: lista con el resultado de <code>parsear_linea</code> para todas las l\u00edneas.</li>\n<li><code>gasto_por_cliente</code>: diccionario <code>cliente \u2192 total</code>.</li>\n<li>Una tabla con f-strings, una fila por pedido, con estas anchuras: c\u00f3digo (8),\n   cliente (14), producto (10), unidades (3, a la derecha) y total (9, a la\n   derecha, con dos decimales), seguido de <code>\u20ac</code>. Despu\u00e9s, el gasto de cada\n   cliente.</li>\n</ol>\n<span class=\"paragraph\"><strong>Ampliaci\u00f3n (opcional).</strong> Valida el c\u00f3digo con <code>re.fullmatch(r\"TS-\\d{4}\", ...)</code>\ny descarta las l\u00edneas que no cumplan.</span>\n<span class=\"paragraph\">En \u00abTu respuesta\u00bb: indica qu\u00e9 estructura has usado en cada paso (lista,\ndiccionario, tupla\u2026) y por qu\u00e9, y qu\u00e9 funci\u00f3n tiene cada una de las dos\nfunciones que has escrito.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TRpd",
+      "code_hash": "d10dd0f6f7ccbc4ae7ed430bc1b87ed7",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "{'codigo': 'TS-0042', 'cliente': 'Ana Garc\u00eda', 'producto': 'teclado', 'unidades': 2, 'precio_unitario': 43.96, 'total': 87.92}\n{'codigo': 'TS-0043', 'cliente': 'Luis P\u00e9rez', 'producto': 'monitor', 'unidades': 1, 'precio_unitario': 186.45, 'total': 186.45}\n{'codigo': 'TS-0044', 'cliente': 'Marta Ruiz', 'producto': 'hub', 'unidades': 3, 'precio_unitario': 27.5, 'total': 82.5}\n{'codigo': 'TS-0045', 'cliente': 'Ana Garc\u00eda', 'producto': 'webcam', 'unidades': 1, 'precio_unitario': 59.9, 'total': 59.9}\n\nGasto por cliente:\n\nTabla de pedidos:\nCODIGO   CLIENTE        PRODUCTO   UND     TOTAL\nTS-0042  Ana Garc\u00eda     teclado      2     87.92 \u20ac\nTS-0043  Luis P\u00e9rez     monitor      1    186.45 \u20ac\nTS-0044  Marta Ruiz     hub          3     82.50 \u20ac\nTS-0045  Ana Garc\u00eda     webcam       1     59.90 \u20ac\n\nGasto por cliente en tabla:\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "TXez",
+      "code_hash": "f51566345bbd51a7cdfc1a69d6508a8c",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Tu respuesta</strong></span>\n<span class=\"paragraph\">He usado una lista para guardar las l\u00edneas de entrada y otra lista, registros para reunir los pedidos ya procesados. Cada pedido se representa con un <strong>diccionario</strong>, porque as\u00ed se accede a sus datos mediante claves como cliente o total. Tambi\u00e9n uso un diccionario para acumular el gasto de cada cliente.</span>\n<span class=\"paragraph\">convertir_importe transforma un importe escrito como texto en un n\u00famero float. parsear_linea separa y normaliza los campos de una l\u00ednea, calcula el total y devuelve un diccionario con los datos del pedido.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "dNNg",
+      "code_hash": "38979aba3521319c554210ecafe20c51",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><hr />\n<h2 id=\"antes-de-entregar\">Antes de entregar</h2>\n<ul class=\"task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled/> He rellenado <code>alumno</code> al principio.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled/> No queda ninguna celda con error.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled/> He escrito la respuesta en las celdas \u00abTu respuesta\u00bb donde se pide.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled/> Mis funciones tienen docstring y nombres descriptivos.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled/> Mi c\u00f3digo tiene comentarios donde la l\u00f3gica no es evidente.</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+Para ejecutar un ejercicio normal de Python (.py):
+
+uv run nombre_archivo.py
+
+
+Para abrir un cuaderno de marimo:
+
+uv run marimo edit nombre_boletin.py
+
+
+
+Si más adelante necesitas instalar una librería nueva:
+
+uv add nombre_libreria
