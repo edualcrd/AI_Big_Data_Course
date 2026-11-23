@@ -1,4 +1,5 @@
 import re
+import shutil
 import unicodedata
 from pathlib import Path
 
@@ -6,8 +7,16 @@ import pytesseract
 from PIL import Image
 from pytesseract import Output
 
-# Ruta del ejecutable Tesseract OCR
-pytesseract.pytesseract.tesseract_cmd = (r"C:\Program Files\Tesseract-OCR\tesseract.exe")
+# Detectar automáticamente el ejecutable de Tesseract
+tesseract_path = shutil.which("tesseract")
+
+if tesseract_path is None:
+    raise RuntimeError(
+        "No se ha encontrado Tesseract OCR. "
+        "Comprueba que está instalado y añadido al PATH del sistema."
+    )
+
+pytesseract.pytesseract.tesseract_cmd = tesseract_path
 
 # Esta función reconoce el texto de una imagen ya procesada utilizando Tesseract.
 def extract_text(image, lang="eng", psm=6): # Utilizo --psm 6 para que Tesseract trate la imagen como un solo bloque de texto.
