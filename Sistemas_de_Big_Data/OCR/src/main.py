@@ -3,6 +3,7 @@ from pathlib import Path
 
 from src.ocr import clean_text, extract_text, get_ocr_confidence, save_text
 from src.preprocessing import load_image, preprocess_image, save_processed_image
+from src.structuring import structure_text_lines
 
 # Directorios del proyecto
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -84,16 +85,47 @@ def main():
         writer.writeheader()
         writer.writerows(results)
 
+
+    # Estructurar los textos OCR por líneas
+    line_records = structure_text_lines(results)
+
+    # Exportar segundo CSV
+    line_csv_path = OUTPUT_DIR / "resultados_lineas.csv"
+
+    line_fieldnames = [
+        "imagen",
+        "numero_linea",
+        "confianza_media_imagen",
+        "texto_linea"
+    ]
+
+    with line_csv_path.open(
+        "w",
+        newline="",
+        encoding="utf-8-sig"
+    ) as csv_file:
+
+        writer = csv.DictWriter(
+            csv_file,
+            fieldnames=line_fieldnames
+        )
+
+        writer.writeheader()
+        writer.writerows(line_records)
+
+
     # Resumen final
     successful = sum(1 for result in results if not result["error"])
 
     failed = len(results) - successful
 
-    print("\n========== RESUMEN FINAL ==========")
+    print("\n RESUMEN FINAL ")
     print(f"Total de imágenes: {len(image_paths)}")
     print(f"Procesadas correctamente: {successful}")
     print(f"Errores: {failed}")
     print(f"Archivo CSV: {csv_path}")
+    print(f"Líneas de texto estructuradas: {len(line_records)}")
+    print(f"CSV por líneas: {line_csv_path}")
 
 
 if __name__ == "__main__":
