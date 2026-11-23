@@ -1,72 +1,97 @@
 import csv
 from pathlib import Path
 
-import matplotlib.pyplot as plt
 from src.ocr import extract_text, get_ocr_confidence, save_text
 from src.preprocessing import load_image, preprocess_image, save_processed_image
 
-# Directorio principal del proyecto
+# Directorios del proyecto
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
-# Imagen que vamos a analizar
-IMAGE_NAME = "apollo 11 ascent timeline.webp"
+ORIGINAL_DIR = PROJECT_ROOT / "data" / "original"
+PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
+OUTPUT_DIR = PROJECT_ROOT / "output"
+
+# Formatos de imagen compatibles
+SUPPORTED_EXTENSIONS = (".png", ".jpg", ".jpeg", ".webp", ".bmp", ".tif", ".tiff")
+
+# Aquí procesamos una imagen completa: carga, preprocesa, reconoce y guarda el resultado.
+def process_image(image_path):
+    print(f"\nProcesando: {image_path.name}")
+
+    # Cargar la imagen original
+    original = load_image(image_path)
+
+    # Preprocesamiento con OpenCV
+    processed = preprocess_image(original)
+
+    # Guardar imagen procesada
+    processed_path = save_processed_image(processed, image_path, PROCESSED_DIR)
+
+    # Extraemos texto por OCR
+    text = extract_text(processed, lang="eng")
+
+    # Calculamos la confianza del reconocimiento
+    metrics = get_ocr_confidence(processed, lang="eng")
+
+    # Guardamos el texto individual
+    txt_path = OUTPUT_DIR / f"{image_path.stem}.txt"
+    save_text(text, txt_path)
+
+    print(f"Palabras reconocidas: {metrics['recognized_words']}")
+    print(f"Confianza media: {metrics['average_confidence']}%")
+
+    return {"imagen": image_path.name, "imagen_procesada": processed_path.name,"palabras_reconocidas": metrics["recognized_words"], "confianza_media": metrics["average_confidence"], "texto": text, "error": ""}
 
 
 def main():
 
-    # Cargar la imagen original
-    image_path = PROJECT_ROOT / "data" / "original" / IMAGE_NAME
-    original = load_image(image_path)
+    # Crear directorios de salida
+    PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Preprocesar la imagen
-    processed = preprocess_image(original)
+    # Obtener todas las imágenes originales
+    image_paths = sorted(path for path in ORIGINAL_DIR.iterdir() if path.is_file() and path.suffix.lower() in SUPPORTED_EXTENSIONS)
 
-    # Guardar la imagen procesada
-    processed_path = save_processed_image(processed, image_path, PROJECT_ROOT / "data" / "processed")
+    if not image_paths:
+        raise FileNotFoundError(f"No se encontraron imágenes en {ORIGINAL_DIR}")
 
-    print(f"\nImagen procesada: {processed_path.name}")
+    print(f"Se han encontrado {len(image_paths)} imágenes.")
 
-    # Extraer el texto mediante OCR
-    text = extract_text(processed, lang="eng")
+    results = []
 
-    # Calcular la confianza de el reconocimiento
-    metrics = get_ocr_confidence(processed, lang="eng")
+    # Procesar todas las imágenes
+    for image_path in image_paths:
 
-    # Guardar el texto en TXT
-    output_dir = PROJECT_ROOT / "output"
+        try:
+            result = process_image(image_path)
+            results.append(result)
 
-    txt_path = output_dir / f"{Path(IMAGE_NAME).stem}.txt"
-    save_text(text, txt_path)
+        except Exception as error:
+            print(f"Error procesando {image_path.name}: {error}")
 
-    # Exportar los resultados a formato CSV.
-    csv_path = output_dir / "resultados.csv"
+            results.append({"imagen": image_path.name, "imagen_procesada": "", "palabras_reconocidas": 0, "confianza_media": 0, "texto": "", "error": str(error)})
 
-    with csv_path.open("w", newline="", encoding="utf-8-sig") as csv_file:
+    # Exportar resultados generales a CSV
+    csv_path = OUTPUT_DIR / "resultados.csv"
 
-        writer = csv.DictWriter(csv_file, fieldnames=["imagen", "palabras_reconocidas", "confianza_media","texto"])
+    fieldnames = ["imagen","imagen_procesada", "palabras_reconocidas", "confianza_media", "texto", "error"]
 
+    with csv_path.open("w",newline="", encoding="utf-8-sig") as csv_file:
+
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         writer.writeheader()
+        writer.writerows(results)
 
-        writer.writerow({"imagen": IMAGE_NAME, "palabras_reconocidas": metrics["recognized_words"], "confianza_media": metrics["average_confidence"], "texto": text})
+    # Resumen final
+    successful = sum(1 for result in results if not result["error"])
 
-    # Mostramos los resultados
-    print("\n RESULTADOS OCR")
-    print(f"Palabras reconocidas: {metrics['recognized_words']}")
-    print(f"Confianza media: {metrics['average_confidence']}%")
+    failed = len(results) - successful
 
-    print("\nTexto extraído:")
-    print(text)
-
-    print("\nArchivos generados:")
-    print(f"TXT: {txt_path}")
-    print(f"CSV: {csv_path}")
-
-    # Visualizamos la imagen procesada
-    plt.figure(figsize=(12, 8))
-    plt.imshow(processed, cmap="gray")
-    plt.title("Imagen preprocesada")
-    plt.axis("off")
-    plt.show()
+    print("\n========== RESUMEN FINAL ==========")
+    print(f"Total de imágenes: {len(image_paths)}")
+    print(f"Procesadas correctamente: {successful}")
+    print(f"Errores: {failed}")
+    print(f"Archivo CSV: {csv_path}")
 
 
 if __name__ == "__main__":
