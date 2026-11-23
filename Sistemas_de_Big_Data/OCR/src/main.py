@@ -1,7 +1,7 @@
 import csv
 from pathlib import Path
 
-from src.ocr import extract_text, get_ocr_confidence, save_text
+from src.ocr import clean_text, extract_text, get_ocr_confidence, save_text
 from src.preprocessing import load_image, preprocess_image, save_processed_image
 
 # Directorios del proyecto
@@ -28,19 +28,21 @@ def process_image(image_path):
     processed_path = save_processed_image(processed, image_path, PROCESSED_DIR)
 
     # Extraemos texto por OCR
-    text = extract_text(processed, lang="eng")
+    raw_text = extract_text(processed, lang="eng")
 
+    # Limpiar y normalizar el texto
+    cleaned_text = clean_text(raw_text)
     # Calculamos la confianza del reconocimiento
     metrics = get_ocr_confidence(processed, lang="eng")
 
     # Guardamos el texto individual
     txt_path = OUTPUT_DIR / f"{image_path.stem}.txt"
-    save_text(text, txt_path)
+    save_text(cleaned_text, txt_path)
 
     print(f"Palabras reconocidas: {metrics['recognized_words']}")
     print(f"Confianza media: {metrics['average_confidence']}%")
 
-    return {"imagen": image_path.name, "imagen_procesada": processed_path.name,"palabras_reconocidas": metrics["recognized_words"], "confianza_media": metrics["average_confidence"], "texto": text, "error": ""}
+    return {"imagen": image_path.name, "imagen_procesada": processed_path.name,"palabras_reconocidas": metrics["recognized_words"], "confianza_media": metrics["average_confidence"], "texto_original": raw_text, "texto_limpio": cleaned_text, "error": ""}
 
 
 def main():
@@ -69,12 +71,12 @@ def main():
         except Exception as error:
             print(f"Error procesando {image_path.name}: {error}")
 
-            results.append({"imagen": image_path.name, "imagen_procesada": "", "palabras_reconocidas": 0, "confianza_media": 0, "texto": "", "error": str(error)})
+            results.append({"imagen": image_path.name, "imagen_procesada": "", "palabras_reconocidas": 0, "confianza_media": 0, "texto_original": "", "texto_limpio": "", "error": str(error)})
 
     # Exportar resultados generales a CSV
     csv_path = OUTPUT_DIR / "resultados.csv"
 
-    fieldnames = ["imagen","imagen_procesada", "palabras_reconocidas", "confianza_media", "texto", "error"]
+    fieldnames = ["imagen","imagen_procesada", "palabras_reconocidas", "confianza_media", "texto_original", "texto_limpio", "error"]
 
     with csv_path.open("w",newline="", encoding="utf-8-sig") as csv_file:
 

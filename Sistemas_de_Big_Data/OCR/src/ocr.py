@@ -1,4 +1,5 @@
-
+import re
+import unicodedata
 from pathlib import Path
 
 import pytesseract
@@ -57,7 +58,7 @@ def get_ocr_confidence(image, lang="eng", psm=6):
 
     return {"average_confidence": average_confidence, "recognized_words": recognized_words}
 
-# Y esta guarda el texto reconocido en un archivo TXT.
+# Esta guarda el texto reconocido en un archivo TXT.
 def save_text(text, output_path):
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -66,3 +67,42 @@ def save_text(text, output_path):
 
 ## La confianza que devuelve tesserac es una estimación del reconocimiento no una garantía de que el texto sea 100% correcto.abs
 
+
+# Limpia y normaliza el texto obtenido mediante OCR.
+def clean_text(text):
+  
+    # Normaliza caracteres Unicode.
+    # Elimina caracteres de control innecesarios.
+    # Sustituye espacios no separables.
+    # Elimina espacios al final de cada línea.
+    # Reduce saltos de línea excesivos.
+
+    # Conserva los saltos de línea y la estructura interna del texto para no perder información.
+
+    if not isinstance(text, str):
+        raise TypeError("El texto debe ser una cadena.")
+
+    # Normalizar caracteres Unicode
+    text = unicodedata.normalize("NFC", text)
+
+    # Normalizar saltos de línea
+    text = text.replace("\r\n", "\n")
+    text = text.replace("\r", "\n")
+
+    # Sustituir espacios no separables
+    text = text.replace("\u00a0", " ")
+
+    # Eliminar caracteres de control innecesarios
+    text = text.replace("\x00", "")
+    text = text.replace("\x0c", "")
+    text = text.replace("\ufeff", "")
+
+    # Eliminar espacios al final de cada línea
+    lines = [line.rstrip() for line in text.split("\n")]
+
+    text = "\n".join(lines)
+
+    # Reducir tres o más saltos de línea a dos
+    text = re.sub(r"\n{3,}", "\n\n", text)
+
+    return text.strip()
