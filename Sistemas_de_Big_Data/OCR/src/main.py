@@ -3,7 +3,7 @@ from pathlib import Path
 
 from src.ocr import clean_text, extract_text, get_ocr_confidence, save_text
 from src.preprocessing import load_image, preprocess_image, save_processed_image
-from src.structuring import structure_text_lines
+from src.structuring import extract_apollo_timeline_events, structure_text_lines
 
 # Directorios del proyecto
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -92,26 +92,35 @@ def main():
     # Exportar segundo CSV
     line_csv_path = OUTPUT_DIR / "resultados_lineas.csv"
 
-    line_fieldnames = [
-        "imagen",
-        "numero_linea",
-        "confianza_media_imagen",
-        "texto_linea"
-    ]
+    line_fieldnames = ["imagen", "numero_linea", "confianza_media_imagen", "texto_linea"]
 
-    with line_csv_path.open(
-        "w",
-        newline="",
-        encoding="utf-8-sig"
-    ) as csv_file:
+    with line_csv_path.open("w", newline="", encoding="utf-8-sig") as csv_file:
 
-        writer = csv.DictWriter(
-            csv_file,
-            fieldnames=line_fieldnames
-        )
+        writer = csv.DictWriter(csv_file, fieldnames=line_fieldnames)
 
         writer.writeheader()
         writer.writerows(line_records)
+
+
+    # Extraer eventos de la cronología Apollo 11
+    apollo_events = extract_apollo_timeline_events(
+        line_records
+    )
+
+    # Exportar eventos estructurados
+    events_csv_path = OUTPUT_DIR / "apollo11_eventos.csv"
+
+    event_fieldnames = ["imagen", "numero_linea", "tiempo", "codigo", "descripcion", "confianza_media_imagen", "texto_original"]
+
+    with events_csv_path.open("w", newline="", encoding="utf-8-sig") as csv_file:
+
+        event_writer = csv.DictWriter(csv_file, fieldnames=event_fieldnames)
+
+        event_writer.writeheader()
+        event_writer.writerows(apollo_events)
+
+    print(f"Eventos Apollo 11 extraídos: {len(apollo_events)}")
+    print(f"CSV de eventos: {events_csv_path}")
 
 
     # Resumen final
