@@ -1,0 +1,420 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.25.2",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "a072aa8087949dd34686ac63171f8758",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"boletin-1-numpy-arrays-formas-y-operaciones\">Bolet\u00edn 1 \u00b7 NumPy: arrays, formas y operaciones</h1>\n<span class=\"paragraph\"><strong>Machine Learning \u00b7 Unidad 1 \u00b7 Cap\u00edtulo 1.4</strong></span>\n<span class=\"paragraph\">Este bolet\u00edn tiene <strong>10 ejercicios</strong> y sigue el orden del cap\u00edtulo, con el caso\nconductor de TechShop:</span>\n<table>\n<thead>\n<tr>\n<th>Bloque</th>\n<th>Ejercicios</th>\n<th>Tema</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>1 \u00b7 Forma y tipo</td>\n<td>1 a 3</td>\n<td>dimensiones, <code>shape</code>, <code>dtype</code>, creaci\u00f3n de arrays y construcci\u00f3n de <code>X</code> e <code>y</code></td>\n</tr>\n<tr>\n<td>2 \u00b7 Seleccionar y operar</td>\n<td>4 a 6</td>\n<td>indexaci\u00f3n, operaciones vectorizadas y m\u00e1scaras booleanas</td>\n</tr>\n<tr>\n<td>3 \u00b7 Estad\u00edstica y datos incompletos</td>\n<td>7 y 8</td>\n<td><code>axis</code>, orden, percentiles, <code>NaN</code>, copias y vistas</td>\n</tr>\n<tr>\n<td>4 \u00b7 Hacia el modelo</td>\n<td>9 y 10</td>\n<td><em>broadcasting</em>, distancias, simulaci\u00f3n reproducible y predicci\u00f3n con <code>X @ w</code></td>\n</tr>\n</tbody>\n</table>\n<span class=\"paragraph\">La dificultad <strong>sube de forma gradual</strong>: los ejercicios 1 a 3 son b\u00e1sicos y\nel 10 integra casi todo lo anterior.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "fdc600b708a194c60bd93540e92b6c23",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "625fbfb52e5acb1c512284dca1c99b5f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"como-trabajar-con-este-boletin\">C\u00f3mo trabajar con este bolet\u00edn</h2>\n<span class=\"paragraph\"><strong>Estructura de cada ejercicio.</strong></span>\n<ol>\n<li>Una celda con el <strong>enunciado</strong>.</li>\n<li>Una celda de <strong>c\u00f3digo</strong> con los datos ya escritos y huecos para tu soluci\u00f3n.\n   Escribe tu c\u00f3digo debajo de cada apartado.</li>\n<li>Una celda <strong>\u00abTu respuesta\u00bb</strong>: es texto en Markdown. Haz <strong>doble clic</strong>\n   sobre ella para editarla y escribe tu explicaci\u00f3n.</li>\n</ol>\n<span class=\"paragraph\"><strong>Reglas de marimo que debes conocer.</strong></span>\n<ul>\n<li>En marimo <strong>un nombre solo puede crearse en una celda</strong>: eso incluye\n  variables, variables de un <code>for</code>, funciones y las importaciones. Si dos\n  celdas crean el mismo nombre, marimo marca un error. La soluci\u00f3n es usar\n  nombres distintos en cada ejercicio o empezar el nombre por <code>_</code>\n  (<code>_columna</code>), que lo deja como privado de esa celda.</li>\n<li><strong>No modifiques</strong> los arrays de datos que aparecen al principio de cada\n  celda, salvo que el enunciado lo pida. Cuando necesites cambiar uno,\n  trabaja sobre una <strong>copia</strong> (<code>.copy()</code>).</li>\n<li>Muestra los resultados con <code>print()</code>. Aparecen en la salida de la celda.</li>\n<li>Las operaciones deben ser <strong>vectorizadas</strong>: sin bucles de Python sobre los\n  elementos de un array, salvo que el enunciado lo pida.</li>\n<li>Cuando el enunciado pida <strong>comprobar</strong> algo, hazlo con <code>assert</code> o con\n  <code>np.allclose</code>; no basta con mirar los n\u00fameros a ojo.</li>\n<li>La <strong>primera celda</strong> (<code>import marimo as mo</code>) es necesaria para que\n  funcionen las celdas de texto: no la borres ni la modifiques.</li>\n<li>Antes de entregar, comprueba que <strong>no queda ninguna celda con error</strong>.</li>\n</ul>\n<span class=\"paragraph\"><strong>Qu\u00e9 se valora.</strong> Cada ejercicio punt\u00faa sobre 1 punto. Se valora que el\nresultado sea correcto, que el c\u00f3digo est\u00e9 <strong>comentado y sea legible</strong>\n(nombres descriptivos) y que <strong>justifiques</strong> las decisiones en las celdas\n\u00abTu respuesta\u00bb. Un resultado correcto sin explicaci\u00f3n no obtiene la\npuntuaci\u00f3n completa.</span>\n<span class=\"paragraph\"><strong>Un h\u00e1bito que te ayudar\u00e1.</strong> Antes de ejecutar una celda, <strong>predice en voz\nalta la <code>shape</code></strong> de cada resultado. Casi todos los errores de NumPy y de\nscikit-learn se resuelven mirando las formas.</span>\n<span class=\"paragraph\"><strong>Entrega.</strong> Guarda el archivo y entr\u00e9galo en la tarea correspondiente de Moodle.</span>\n<span class=\"paragraph\"><strong>Ampliaciones.</strong> Los apartados marcados como <em>Ampliaci\u00f3n (opcional)</em> no son\nnecesarios para entregar el bolet\u00edn.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "e1a43315460159fc05a2392b75e291b4",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"importaciones\">Importaciones</h2>\n<span class=\"paragraph\">No modifiques esta celda salvo para <strong>a\u00f1adir</strong> importaciones.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "1086d45c00a5f71fbb722de3dab85874",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "64e5b370b6b3a88409b5cb8bdb577d20",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><hr />\n<h1 id=\"bloque-1-forma-y-tipo\">Bloque 1 \u00b7 Forma y tipo</h1>\n<h2 id=\"ejercicio-1-radiografia-de-arrays\">Ejercicio 1 \u00b7 Radiograf\u00eda de arrays</h2>\n<span class=\"paragraph\"><em>Nivel: b\u00e1sico \u00b7 Cap\u00edtulo 1.4 \u00b7 secci\u00f3n 2</em></span>\n<span class=\"paragraph\">Antes de que un modelo reciba datos, hay que saber <strong>qu\u00e9 estructura</strong> son:\n\u00bfun n\u00famero, una lista, una tabla, un mont\u00f3n de tablas? Para el equipo de\nTechShop se han preparado siete arrays. Antes de ejecutar nada, <strong>intenta\npredecir</strong> su <code>shape</code>.</span>\n<span class=\"paragraph\"><strong>Se pide:</strong></span>\n<ol>\n<li>Con un bucle sobre el diccionario <code>arrays_ej1</code>, imprime <strong>una l\u00ednea por\n   array</strong> con este formato (con los valores reales):\n   <code>nombre: ndim=\u2026, shape=\u2026, size=\u2026, dtype=\u2026</code>.</li>\n<li>Comprueba con <code>assert</code> que <code>ventas_tensor.size</code> es igual al producto de los\n   n\u00fameros de su <code>shape</code> (<code>4 * 7 * 3</code>).</li>\n<li>Muestra <code>columna_vector</code>, <code>columna_matriz</code> y <code>fila_matriz</code>. Observa que\n   los tres contienen n\u00fameros de una sola \u00abl\u00ednea\u00bb, pero no son lo mismo.</li>\n</ol>\n<span class=\"paragraph\">En \u00abTu respuesta\u00bb: completa la tabla y contesta las preguntas.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "26ad81412acc781a6711dd6a7bb87227",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "e25a4a573a86fccf9e799ca134bdc814",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Tu respuesta</strong></span>\n<span class=\"paragraph\">Clasifica cada array como <strong>escalar, vector, matriz o tensor</strong> y di en una\nfrase qu\u00e9 representa en TechShop:</span>\n<table>\n<thead>\n<tr>\n<th>Array</th>\n<th>Tipo</th>\n<th>Qu\u00e9 representa</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>precio_producto</code></td>\n<td>Escalar (0D)</td>\n<td>El precio unitario de un solo producto en TechShop (24,90 \u20ac)</td>\n</tr>\n<tr>\n<td><code>visitas_semana</code></td>\n<td>Vector (1D)</td>\n<td>El n\u00famero de visitas registradas en cuatro periodos o productos.</td>\n</tr>\n<tr>\n<td><code>tabla_producto</code></td>\n<td>Matriz (2D)</td>\n<td>Una tabla de 3 productos (filas) con 2 caracter\u00edsticas cada uno: visitas y valoraci\u00f3n (columnas).</td>\n</tr>\n<tr>\n<td><code>ventas_tensor</code></td>\n<td>Tensor (3D)</td>\n<td>Un cubo de datos con 4 productos, 7 d\u00edas de la semana y 3 medidas distintas por d\u00eda.</td>\n</tr>\n<tr>\n<td><code>columna_vector</code></td>\n<td>Vector (1D)</td>\n<td>Las visitas de los 3 productos extra\u00eddas como una lista plana sin estructura de columna.</td>\n</tr>\n<tr>\n<td><code>columna_matriz</code></td>\n<td>Matriz (2D)</td>\n<td>Las mismas visitas de los 3 productos, pero manteniendo la formas de tabla de 3 filas \u00d7 1 columna.</td>\n</tr>\n<tr>\n<td><code>fila_matriz</code></td>\n<td>Matriz (2D)</td>\n<td>Una tabla de una \u00fanica observaci\u00f3n (1 fila) con 3 caracter\u00edsticas (3 columnas).</td>\n</tr>\n</tbody>\n</table>\n<span class=\"paragraph\"><strong>Preguntas.</strong></span>\n<ol>\n<li>Porque un array de NumPy solo puede almacenar un solo tipo de dato (dtype) en todos sus elementos. Como la segunda columna contiene decimales (4.2, 4.8, 2.5), NumPy nos da autom\u00e1ticamente los enteros de las visitas a float64 para que no perdamos los decimales.</li>\n<li>Pasar\u00eda columna_matriz (forma (3, 1)) como X, porque scikit-leanr obliga que las caracter\u00edsticas sean siempre una matriz 2D de forma (n_observaciones, n_caracteristicas), incluso cuando solo hay una caracter\u00edstica. Pasar\u00eda columna_vector (forma (3,1)) como \"y\" porque la variable objetivo debe ser un vector 1D con un valor por cada observaci\u00f3n.</li>\n</ol></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "ed95dbbfb970d133c39c012dd547f3b2",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"ejercicio-2-tipos-de-datos-ni-todo-es-float64-ni-todo-cabe\">Ejercicio 2 \u00b7 Tipos de datos: ni todo es <code>float64</code> ni todo cabe</h2>\n<span class=\"paragraph\"><em>Nivel: b\u00e1sico \u00b7 Cap\u00edtulo 1.4 \u00b7 secciones 3.1 a 3.3</em></span>\n<span class=\"paragraph\">Un array guarda <strong>un solo tipo</strong> (<code>dtype</code>). Eso lo hace r\u00e1pido, pero trae dos\nsorpresas: NumPy convierte tipos sin avisar y los enteros peque\u00f1os <strong>se\ndesbordan</strong> sin dar error.</span>\n<span class=\"paragraph\"><strong>Se pide:</strong></span>\n<ol>\n<li>Crea un array con <code>mezcla_numeros</code> y otro con <code>mezcla_con_texto</code>. Muestra\n   cada array y su <code>dtype</code>.</li>\n<li>Convierte <code>valoraciones_decimales</code> a enteros con <code>astype(int)</code> y muestra el\n   resultado. Despu\u00e9s hazlo <strong>bien</strong>: redondea primero y convierte despu\u00e9s.\n   Muestra los dos resultados.</li>\n<li>Suma <code>50</code> a <code>stock_almacen</code> (un array de <code>int8</code>) y muestra el resultado.\n   Despu\u00e9s corrige el problema convirtiendo antes a <code>int64</code> y vuelve a\n   sumar.</li>\n<li>Crea con funciones de NumPy (sin escribir los valores a mano) y muestra\n   <code>shape</code> y <code>dtype</code> de cada uno:<ul>\n<li>cinco precios <strong>equiespaciados</strong> de 10 a 50 (ambos incluidos);</li>\n<li>una matriz de ceros decimales de 3 filas \u00d7 4 columnas;</li>\n<li>la matriz identidad de 3 \u00d7 3;</li>\n<li>los enteros 0, 25, 50 y 75.</li>\n</ul>\n</li>\n</ol>\n<span class=\"paragraph\">En \u00abTu respuesta\u00bb: explica por qu\u00e9 mezclar un texto convierte todo el array\nen texto, y por qu\u00e9 el apartado 3 es peligroso aunque no d\u00e9 ning\u00fan error.\nExplica tambi\u00e9n qu\u00e9 error dar\u00eda <code>np.zeros(3, 4)</code> y c\u00f3mo se escribe bien. (No\nejecutes esa l\u00ednea.)</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "4265361ac7b4431531a8776574033845",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "7d4b3e2819f4fb564310b713dde13158",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Tu respuesta</strong></span>\n<ul>\n<li>Mezcla con texto: Como todos los elementos de un array deben compartir el mismo dtype, NumPy busca el tipo m\u00e1s general capaz de representar todos los valores sin perder informaci\u00f3n. Un n\u00famero puede representarse como texto (\"3\", \"4.5\"), pero un texto gen\u00e9rico no siempre puede convertirse a n\u00famero; por eso todo el array pasa a ser de cadenas (<code>&lt;U32</code>), lo que impide hacer c\u00e1lculos aritm\u00e9ticos directamente sobre \u00e9l.</li>\n<li>Peligro del apartado 3: Un int solo almacena valores entre -128 y 127. Al sumar 50 a [100, 120, 90], el resultado supera 127 y da la vuelta a n\u00fameros negativos ([-106, -86, -116]) de forma silenciosa, sin lanzar ninguna excepci\u00f3n. En producci\u00f3n o en un modelo de ML esto introduce datos corruptos imposibles de detectar si no se comprueba el tipo o el rango.</li>\n<li>Error en np.zeros(3, 4): Lanzar\u00eda un TypeError: Cannot interpret '4' as a data type, porque el primer argumento de np.zeros es la forma (shape) y el segundo es el dtype. Para crear una matriz de 3 \u00d7 4 hay que pasar las dimensiones agrupadas en una tupla: np.zeros((3, 4)).</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "9bfbfb8b7d65cb78dc9636c799bd0ad6",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"ejercicio-3-construir-x-e-y\">Ejercicio 3 \u00b7 Construir <code>X</code> e <code>y</code></h2>\n<span class=\"paragraph\"><em>Nivel: b\u00e1sico \u00b7 Cap\u00edtulo 1.4 \u00b7 secciones 4 y 5</em></span>\n<span class=\"paragraph\">scikit-learn (Unidad 3) exige que las caracter\u00edsticas sean una <strong>matriz <code>X</code> de\nforma <code>(n, p)</code></strong> (<code>n</code> observaciones, <code>p</code> caracter\u00edsticas) y el objetivo, un\n<strong>vector <code>y</code> de forma <code>(n,)</code></strong>. Casi todos los errores de principiante son de\nforma. Vas a prepararlas a mano.</span>\n<span class=\"paragraph\"><strong>Se pide:</strong></span>\n<ol>\n<li>Construye <code>X</code> con <code>np.column_stack</code> a partir de <code>visitas</code>, <code>valoraciones</code> y\n   <code>precios</code>, e <code>y</code> a partir de <code>unidades</code>. Muestra <code>shape</code> y <code>dtype</code> de cada\n   uno. Comprueba con <code>assert</code> que <code>X</code> es 2D, que <code>y</code> es 1D y que tienen el\n   <strong>mismo n\u00famero de filas</strong>.</li>\n<li>Prepara una <code>X</code> con <strong>una sola caracter\u00edstica</strong> (solo <code>visitas</code>) de forma\n   <code>(8, 1)</code> de dos maneras distintas. Muestra tambi\u00e9n <code>visitas</code> tal cual y\n   <code>visitas.reshape(1, -1)</code>, y escribe sus tres <code>shape</code>.</li>\n<li><code>tensor_ventas</code> guarda, para cada uno de los 8 productos, 7 d\u00edas \u00d7 2 medidas\n   (unidades y devoluciones). Convi\u00e9rtelo en una <strong>matriz con una fila por\n   producto</strong> usando <code>reshape</code> y el comod\u00edn <code>-1</code>. Comprueba con\n   <code>np.array_equal</code> que la fila 0 de la matriz es <code>tensor_ventas[0].ravel()</code>.</li>\n<li>Haz ahora <code>tensor_ventas.reshape(7, -1)</code>. Muestra su <code>shape</code> y comprueba (de\n   nuevo con <code>np.array_equal</code>) si su fila 0 coincide con\n   <code>tensor_ventas[0].ravel()</code>.</li>\n</ol>\n<span class=\"paragraph\">En \u00abTu respuesta\u00bb: \u00bfqu\u00e9 mensaje dar\u00eda scikit-learn si le pasaras <code>visitas</code>\nde forma <code>(8,)</code> como <code>X</code>, y c\u00f3mo se arregla? \u00bfPor qu\u00e9 el apartado 4 <strong>no da\nerror</strong> aunque est\u00e9 mal?</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "b64a061bcd864d1ff53dbf5d8e7064bb",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "X_ej3: shape=(8, 3), dtype=float64\ny_ej3: shape=(8,), dtype=int64\nvisitas.shape: (8,)\nX_visitas_reshape.shape: (8, 1)\nX_visitas_newaxis.shape: (8, 1)\nvisitas_fila.shape: (1, 8)\nmatriz_ventas_ok.shape: (8, 14)\nmatriz_ventas_mal.shape: (7, 16)\n\u00bfCoincide la fila 0 con el producto 0?: False\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "iLit",
+      "code_hash": "71d4fe889ffc31232f4a51e7e19bfb92",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Tu respuesta</strong></span>\n<span class=\"paragraph\"><em>(Escribe aqu\u00ed tu respuesta. Haz doble clic en esta celda para editarla.)</em></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZHCJ",
+      "code_hash": "0fc99f5a53915f165e2c55e27ca84dcd",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><hr />\n<h1 id=\"bloque-2-seleccionar-y-operar\">Bloque 2 \u00b7 Seleccionar y operar</h1>\n<h2 id=\"ejercicio-4-elegir-datos-con-indices-y-slicing\">Ejercicio 4 \u00b7 Elegir datos con \u00edndices y <em>slicing</em></h2>\n<span class=\"paragraph\"><em>Nivel: medio \u00b7 Cap\u00edtulo 1.4 \u00b7 secci\u00f3n 6</em></span>\n<span class=\"paragraph\">La matriz <code>unidades_mensuales</code> guarda las unidades vendidas por TechShop:\n<strong>una fila por producto</strong> y <strong>una columna por mes</strong> (de enero a junio). Los\nnombres de los productos est\u00e1n en el vector <code>productos_nombres</code>, en el mismo\norden que las filas.</span>\n<span class=\"paragraph\"><strong>Se pide</strong>, con \u00edndices (sin bucles):</span>\n<ol>\n<li>Muestra las ventas del <strong>monitor en marzo</strong>, las ventas de <strong>todos los\n   productos en junio</strong> (\u00faltima columna, con \u00edndice negativo) y la <strong>fila\n   completa del port\u00e1til</strong>.</li>\n<li>Con <em>slicing</em>, muestra la submatriz de los <strong>tres primeros productos</strong> y\n   los <strong>tres \u00faltimos meses</strong>, y la de <strong>todos los productos en los meses\n   alternos</strong> (enero, marzo y mayo). Escribe la <code>shape</code> de cada una.</li>\n<li>Con una <strong>lista de \u00edndices</strong>, muestra las ventas completas de teclado, hub\n   y rat\u00f3n (filas 0, 4 y 5) y, usando la misma lista, sus nombres.</li>\n<li>Trabajando sobre una <strong>copia</strong>, corrige los datos: el hub vendi\u00f3 <strong>240</strong> en\n   abril (no 230) y el port\u00e1til vendi\u00f3 <strong>24</strong> en enero (no 20). Muestra las\n   dos filas corregidas y comprueba que <code>unidades_mensuales</code> <strong>no ha\n   cambiado</strong>.</li>\n<li>Muestra la <code>shape</code> de <code>unidades_mensuales[:, 1]</code>, de\n   <code>unidades_mensuales[:, [1]]</code>, de <code>unidades_mensuales[1]</code> y de\n   <code>unidades_mensuales[1:2]</code>.</li>\n</ol>\n<span class=\"paragraph\">En \u00abTu respuesta\u00bb: \u00bfincluye <code>unidades_mensuales[1:4]</code> la fila 4? \u00bfQu\u00e9\ndiferencia hay entre <code>[:, 1]</code> y <code>[:, [1]]</code>, y cu\u00e1ndo necesitar\u00edas cada una?</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ROlb",
+      "code_hash": "e0097f76f5957736d6a6838fa5076998",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "qnkX",
+      "code_hash": "71d4fe889ffc31232f4a51e7e19bfb92",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Tu respuesta</strong></span>\n<span class=\"paragraph\"><em>(Escribe aqu\u00ed tu respuesta. Haz doble clic en esta celda para editarla.)</em></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TqIu",
+      "code_hash": "9ceb31df3ac1a64d110c14e5382c7d7d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"ejercicio-5-operaciones-vectorizadas-y-rendimiento\">Ejercicio 5 \u00b7 Operaciones vectorizadas y rendimiento</h2>\n<span class=\"paragraph\"><em>Nivel: medio \u00b7 Cap\u00edtulo 1.4 \u00b7 secciones 1 y 7</em></span>\n<span class=\"paragraph\">Vectorizar es aplicar una operaci\u00f3n a <strong>todo el array a la vez</strong>, sin bucle de\nPython. Es m\u00e1s corto, m\u00e1s legible y mucho m\u00e1s r\u00e1pido. Lo comprobar\u00e1s con tus\npropias medidas.</span>\n<span class=\"paragraph\"><strong>Se pide</strong>, sin bucles en los apartados 1 a 3:</span>\n<ol>\n<li>Con los arrays <code>precios_prod</code>, <code>costes_prod</code> y <code>unidades_prod</code>, calcula:<ul>\n<li><code>importes</code>: el importe vendido de cada producto;</li>\n<li><code>precios_iva</code>: el precio con un 21 % de IVA, redondeado a 2 decimales;</li>\n<li><code>margen_pct</code>: el margen sobre el precio, en porcentaje y con 1 decimal\n (<code>(precio \u2212 coste) / precio \u00b7 100</code>).\n   Muestra los tres.</li>\n</ul>\n</li>\n<li>Los descuentos que han pedido los comerciales est\u00e1n en <code>descuentos_pedidos</code>\n   (en %). La pol\u00edtica de TechShop <strong>no permite m\u00e1s de un 30 %</strong>: usa\n   <code>np.clip</code> para limitarlos (y que ninguno sea negativo). Calcula tambi\u00e9n el\n   <code>np.log</code> de los <code>importes</code>, redondeado a 2 decimales. Muestra ambos.</li>\n<li>Calcula el importe con IVA de dos formas: <code>(precios_prod * 1.21) *\n   unidades_prod</code> y <code>precios_prod * (unidades_prod * 1.21)</code>. Compara los dos\n   resultados primero con <code>==</code> (usa <code>.all()</code>) y despu\u00e9s con <code>np.allclose</code>.\n   Muestra qu\u00e9 elementos difieren con <code>==</code>.</li>\n<li><strong>Rendimiento.</strong> Con <code>precios_millon</code> (un mill\u00f3n de precios) y su versi\u00f3n en\n   lista <code>lista_millon</code>, calcula el precio con IVA (\u00d71.21) de dos formas:\n   con una <em>list comprehension</em> y con una operaci\u00f3n vectorizada. Mide el\n   tiempo de cada una con <code>time.perf_counter()</code> y muestra los dos tiempos en\n   milisegundos y cu\u00e1ntas veces es m\u00e1s r\u00e1pida la de NumPy. Comprueba con\n   <code>np.allclose</code> que los dos resultados coinciden.</li>\n</ol>\n<span class=\"paragraph\">En \u00abTu respuesta\u00bb: \u00bfpor qu\u00e9 la versi\u00f3n de NumPy es m\u00e1s r\u00e1pida? \u00bfPor qu\u00e9\n<code>==</code> falla en el apartado 3 aunque las dos f\u00f3rmulas sean matem\u00e1ticamente\niguales? Y \u00bfen qu\u00e9 situaci\u00f3n <strong>no</strong> compensa vectorizar?</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Vxnm",
+      "code_hash": "4b269ff71e076bab5ca7ed48e26edfe7",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "DnEU",
+      "code_hash": "71d4fe889ffc31232f4a51e7e19bfb92",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Tu respuesta</strong></span>\n<span class=\"paragraph\"><em>(Escribe aqu\u00ed tu respuesta. Haz doble clic en esta celda para editarla.)</em></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ulZA",
+      "code_hash": "bbe3f03982f2f445249a6a02ffec2e1f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"ejercicio-6-mascaras-booleanas-filtrar-contar-y-modificar\">Ejercicio 6 \u00b7 M\u00e1scaras booleanas: filtrar, contar y modificar</h2>\n<span class=\"paragraph\"><em>Nivel: medio \u00b7 Cap\u00edtulo 1.4 \u00b7 secci\u00f3n 8</em></span>\n<span class=\"paragraph\">Una <strong>m\u00e1scara</strong> es un array de <code>True</code>/<code>False</code> que se usa para seleccionar los\nelementos que cumplen una condici\u00f3n. Es la herramienta con la que filtrar\u00e1s\nobservaciones en todo el curso. Aqu\u00ed tienes 40 productos con sus visitas,\nvaloraci\u00f3n y unidades vendidas. Cuidado: la captura de valoraciones tiene\n<strong>errores</strong> (valores mayores que 5).</span>\n<span class=\"paragraph\"><strong>Se pide:</strong></span>\n<ol>\n<li>Crea la m\u00e1scara <code>populares</code> (m\u00e1s de <strong>250 visitas</strong>). Muestra cu\u00e1ntos\n   productos hay y qu\u00e9 porcentaje del cat\u00e1logo representan (con un decimal),\n   <strong>sin bucles</strong>: usa las propiedades de la m\u00e1scara.</li>\n<li>Crea la m\u00e1scara <code>trampa</code>: populares <strong>y</strong> con valoraci\u00f3n <strong>menor que 3.0</strong>\n   (mucho tr\u00e1fico, mala reputaci\u00f3n). Muestra cu\u00e1ntos son y las <strong>posiciones</strong>\n   en que est\u00e1n (<code>np.flatnonzero</code>).</li>\n<li>Filtra <strong><code>X</code> e <code>y</code> con la misma m\u00e1scara</strong> <code>populares</code> y comprueba con\n   <code>assert</code> que siguen alineadas. Muestra las unidades medias de los\n   populares y del resto (<code>~populares</code>), con un decimal.</li>\n<li>Cuenta cu\u00e1ntas valoraciones son <strong>mayores que 5</strong>. Sobre una <strong>copia</strong> de\n   las valoraciones, ponlas a <code>5.0</code> modificando con la m\u00e1scara y comprueba\n   que el m\u00e1ximo es ahora <code>5.0</code> y que el array original no ha cambiado.</li>\n<li>Con <code>np.where</code>, crea un vector de etiquetas: <code>\"alta\"</code> si las unidades\n   superan la <strong>mediana</strong> de las unidades y <code>\"baja\"</code> en caso contrario.\n   Muestra cu\u00e1ntas de cada tipo hay.</li>\n</ol>\n<span class=\"paragraph\">En \u00abTu respuesta\u00bb: \u00bfpor qu\u00e9 <code>(visitas_cat &gt; 250) and (valoraciones_cat &lt; 3.0)</code> da error y\nc\u00f3mo se escribe bien? \u00bfQu\u00e9 ocurrir\u00eda si filtraras <code>X</code> pero no <code>y</code>?</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ecfG",
+      "code_hash": "169af03f19cbb80b98e264cd00ca7fcc",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "Pvdt",
+      "code_hash": "71d4fe889ffc31232f4a51e7e19bfb92",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Tu respuesta</strong></span>\n<span class=\"paragraph\"><em>(Escribe aqu\u00ed tu respuesta. Haz doble clic en esta celda para editarla.)</em></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZBYS",
+      "code_hash": "d0e8662b4b0feb13350b6b03191ba9ea",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><hr />\n<h1 id=\"bloque-3-estadistica-y-datos-incompletos\">Bloque 3 \u00b7 Estad\u00edstica y datos incompletos</h1>\n<h2 id=\"ejercicio-7-estadisticas-por-eje-orden-y-percentiles\">Ejercicio 7 \u00b7 Estad\u00edsticas por eje, orden y percentiles</h2>\n<span class=\"paragraph\"><em>Nivel: medio \u00b7 Cap\u00edtulo 1.4 \u00b7 secci\u00f3n 9</em></span>\n<span class=\"paragraph\">La matriz <code>ventas_semana</code> recoge las ventas diarias (en \u20ac) de cinco categor\u00edas\nde TechShop durante una semana: <strong>una fila por categor\u00eda</strong> y <strong>una columna por\nd\u00eda</strong> (de lunes a domingo).</span>\n<span class=\"paragraph\"><strong>Se pide:</strong></span>\n<ol>\n<li>Calcula el total y la media de <strong>toda</strong> la matriz; la media <strong>por\n   categor\u00eda</strong> (una por fila) y la media <strong>por d\u00eda</strong> (una por columna).\n   Muestra cada resultado con su <code>shape</code> y redondea las medias a 1 decimal.</li>\n<li>Con <code>argmax</code> y <code>argmin</code>, muestra el <strong>nombre de la categor\u00eda</strong> con m\u00e1s\n   ventas totales y el <strong>nombre del d\u00eda</strong> con menos ventas totales.</li>\n<li>Muestra un <strong>ranking</strong> de las categor\u00edas de mayor a menor ventas totales,\n   con su total (usa <code>argsort</code>).</li>\n<li>Calcula con <code>np.percentile</code> el primer cuartil (25), el tercer cuartil (75) y\n   el rango intercuart\u00edlico (<code>IQR = Q3 \u2212 Q1</code>) de <strong>todos los valores</strong> de la\n   matriz. Un valor es <em>at\u00edpico</em> si queda fuera del intervalo\n   <code>[Q1 \u2212 1.5 \u00b7 IQR, Q3 + 1.5 \u00b7 IQR]</code>. Muestra <strong>ambos umbrales</strong> y, con\n   <code>np.where(m\u00e1scara)</code>, la categor\u00eda y el d\u00eda de cada valor at\u00edpico (combina\n   las dos condiciones con <code>|</code>).</li>\n<li>Calcula con <code>np.corrcoef</code> la correlaci\u00f3n entre las ventas diarias de\n   <em>Audio</em> y de <em>Perif\u00e9ricos</em> (con 2 decimales), y el acumulado semanal\n   (<code>np.cumsum</code>) de <em>Port\u00e1tiles</em>.</li>\n</ol>\n<span class=\"paragraph\">En \u00abTu respuesta\u00bb: \u00bfqu\u00e9 forma tiene el resultado de <code>axis=0</code> y el de\n<code>axis=1</code>, y cu\u00e1l de las dos \u00abhace desaparecer\u00bb las columnas? Mira los valores\nat\u00edpicos del apartado 4: \u00bfes razonable llamarlos as\u00ed? \u00bfQu\u00e9 cambiar\u00edas en el\nc\u00e1lculo? \u00bfTiene sentido el umbral inferior con ventas? Y, sobre la correlaci\u00f3n del apartado 5: \u00bfsignifica que vender audio\n<strong>hace</strong> vender perif\u00e9ricos?</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "aLJB",
+      "code_hash": "a0d16ff9fee9598b35d11fed3113e247",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "nHfw",
+      "code_hash": "71d4fe889ffc31232f4a51e7e19bfb92",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Tu respuesta</strong></span>\n<span class=\"paragraph\"><em>(Escribe aqu\u00ed tu respuesta. Haz doble clic en esta celda para editarla.)</em></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "xXTn",
+      "code_hash": "1c39a56b0953fdb41a094a3be66c1fa1",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"ejercicio-8-valores-faltantes-copias-y-vistas\">Ejercicio 8 \u00b7 Valores faltantes, copias y vistas</h2>\n<span class=\"paragraph\"><em>Nivel: medio-alto \u00b7 Cap\u00edtulo 1.4 \u00b7 secciones 10 y 13</em></span>\n<span class=\"paragraph\">En datos reales faltan valores. En NumPy un decimal faltante es <code>np.nan</code>, y\ntiene dos propiedades molestas: <strong>contagia</strong> a las operaciones y <strong>no se\npuede buscar con <code>==</code></strong>. Adem\u00e1s, algunas operaciones de NumPy devuelven una\n<strong>vista</strong> (comparte memoria con el original) y no una copia, as\u00ed que\nmodificarla altera los datos de partida. Aqu\u00ed tienes <code>X_nan</code> (visitas y\nvaloraci\u00f3n) e <code>y_nan</code>; a dos productos les falta la valoraci\u00f3n.</span>\n<span class=\"paragraph\"><strong>Se pide:</strong></span>\n<ol>\n<li>Muestra la media de <code>valoraciones_nan</code> con <code>mean()</code> y con <code>np.nanmean</code>;\n   cu\u00e1ntos <code>NaN</code> hay (con <code>np.isnan</code>) y el resultado de\n   <code>(valoraciones_nan == np.nan).sum()</code>.</li>\n<li><strong>Opci\u00f3n A, eliminar.</strong> Crea <code>X_sin_nan</code> e <code>y_sin_nan</code> quitando las\n   observaciones con valoraci\u00f3n faltante, <strong>manteni\u00e9ndolas alineadas</strong>.\n   Muestra sus <code>shape</code> y comprueba con <code>assert</code> que no queda ning\u00fan <code>NaN</code> y\n   que <code>X_sin_nan</code> e <code>y_sin_nan</code> tienen el mismo n\u00famero de filas.</li>\n<li><strong>Opci\u00f3n B, imputar.</strong> En una <strong>copia</strong> de <code>X_nan</code>, sustituye los <code>NaN</code> de\n   la valoraci\u00f3n por la <strong>mediana</strong> (<code>np.nanmedian</code>) de esa columna. Muestra\n   la mediana usada, cu\u00e1ntos <code>NaN</code> quedan en la copia y cu\u00e1ntos en el\n   original.</li>\n<li>La funci\u00f3n <code>imputar_con_media</code> la ha escrito un compa\u00f1ero. Ll\u00e1mala con una\n   <strong>copia</strong> de <code>valoraciones_nan</code> y comprueba cu\u00e1ntos <code>NaN</code> tiene esa copia\n   <strong>despu\u00e9s</strong> de la llamada. Escribe despu\u00e9s <code>imputar_con_media_segura</code>, que\n   haga lo mismo pero <strong>no modifique</strong> el array que recibe, y demuestra con\n   una copia que el argumento conserva sus <code>NaN</code> y que el resultado no\n   comparte memoria con \u00e9l (<code>np.shares_memory</code>).</li>\n<li>Sobre una copia de trabajo de <code>valoraciones_nan</code>, crea <code>vista_cinco =\n   copia[:5]</code> y <code>seleccion = copia[copia &gt; 4]</code>. Muestra si cada una tiene\n   como <code>.base</code> la copia (<code>.base is copia</code>). Despu\u00e9s pon <code>vista_cinco[0] =\n   0.0</code> y muestra <code>copia[0]</code>.</li>\n</ol>\n<span class=\"paragraph\">En \u00abTu respuesta\u00bb: \u00bfeliminar o imputar? Justifica tu decisi\u00f3n para este caso\n(2 de 10 observaciones) y di qu\u00e9 riesgo tiene cada opci\u00f3n. Explica por qu\u00e9 la\nfunci\u00f3n del compa\u00f1ero es peligrosa.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "AjVT",
+      "code_hash": "07363c4e908372ec6434d4fdc05d66e3",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "pHFh",
+      "code_hash": "71d4fe889ffc31232f4a51e7e19bfb92",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Tu respuesta</strong></span>\n<span class=\"paragraph\"><em>(Escribe aqu\u00ed tu respuesta. Haz doble clic en esta celda para editarla.)</em></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "NCOB",
+      "code_hash": "a0acba87d3df16150bb9b2be89e8e3ee",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><hr />\n<h1 id=\"bloque-4-hacia-el-modelo\">Bloque 4 \u00b7 Hacia el modelo</h1>\n<h2 id=\"ejercicio-9-broadcasting-estandarizar-y-buscar-el-producto-mas-parecido\">Ejercicio 9 \u00b7 <em>Broadcasting</em>: estandarizar y buscar el producto m\u00e1s parecido</h2>\n<span class=\"paragraph\"><em>Nivel: alto \u00b7 Cap\u00edtulo 1.4 \u00b7 secci\u00f3n 11</em></span>\n<span class=\"paragraph\">El <em>broadcasting</em> permite operar arrays de formas distintas \u00abestirando\u00bb el\npeque\u00f1o. Con \u00e9l se estandariza <code>X</code> (una operaci\u00f3n que ver\u00e1s en casi todos los\nmodelos) y se calculan distancias entre observaciones. Es la base de una idea\nmuy simple de ML: <strong>para predecir un producto nuevo, mira cu\u00e1l se le parece\nm\u00e1s</strong>.</span>\n<span class=\"paragraph\"><strong>Se pide:</strong></span>\n<ol>\n<li>Calcula las medias y las desviaciones t\u00edpicas <strong>por columna</strong> de <code>X_prod</code>\n   (<code>axis=0</code>) y estandar\u00edzala con <code>(X_prod - medias) / desvios</code>. Muestra la\n   <code>shape</code> de las medias, de los desv\u00edos y del resultado, y comprueba con\n   <code>np.allclose</code> que cada columna estandarizada tiene media 0 y desviaci\u00f3n 1.</li>\n<li><code>ventas_canal</code> guarda las ventas de cinco productos en tres canales (web,\n   tienda y app). Calcula la <strong>distribuci\u00f3n porcentual por producto</strong> (cada\n   fila debe sumar 100) dividiendo cada fila entre su total con\n   <code>keepdims=True</code>. Comprueba con <code>np.allclose</code> que todas las filas suman<ol start=\"100\">\n<li>Despu\u00e9s, <strong>sin</strong> <code>keepdims</code> y dentro de un <code>try \u2026 except\n   ValueError</code>, intenta la misma divisi\u00f3n e imprime el mensaje del error.</li>\n</ol>\n</li>\n<li>Ha llegado un producto nuevo, <code>nuevo</code> (visitas, valoraci\u00f3n, precio).\n   Calcula su <strong>distancia eucl\u00eddea</strong> a los 12 productos de <code>X_prod</code> con\n   broadcasting (<code>sqrt(suma de (X \u2212 nuevo)\u00b2)</code> por filas) y muestra el \u00edndice y\n   la distancia de los <strong>tres m\u00e1s parecidos</strong>.</li>\n<li>Repite el apartado 3 <strong>estandarizando tambi\u00e9n <code>nuevo</code></strong> con las medias y\n   desv\u00edos de <code>X_prod</code> (no con los suyos propios, que no tiene). Muestra de\n   nuevo los tres m\u00e1s parecidos. Compara el m\u00e1s cercano en cada caso\n   mostrando su fila de <code>X_prod</code>.</li>\n</ol>\n<span class=\"paragraph\">En \u00abTu respuesta\u00bb: explica qu\u00e9 <code>shape</code> tienen los dos operandos de\n<code>(X_prod - medias)</code> y qu\u00e9 hace NumPy para restarlos; por qu\u00e9 falla el\napartado 2 sin <code>keepdims</code>; y por qu\u00e9 el producto m\u00e1s parecido <strong>cambia</strong> al\nestandarizar y cu\u00e1l de los dos resultados es m\u00e1s razonable.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "aqbW",
+      "code_hash": "75f579df27d4360d38d86f050beb1470",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "TRpd",
+      "code_hash": "71d4fe889ffc31232f4a51e7e19bfb92",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Tu respuesta</strong></span>\n<span class=\"paragraph\"><em>(Escribe aqu\u00ed tu respuesta. Haz doble clic en esta celda para editarla.)</em></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TXez",
+      "code_hash": "90593d16101a61e943741164930786f1",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"ejercicio-10-simular-repartir-y-predecir-con-x-w\">Ejercicio 10 \u00b7 Simular, repartir y predecir con <code>X @ w</code></h2>\n<span class=\"paragraph\"><em>Nivel: integrador \u00b7 Cap\u00edtulo 1.4 \u00b7 secciones 12 a 14</em></span>\n<span class=\"paragraph\">Para terminar, un mini-proyecto con todo lo anterior. Simular\u00e1s ventas de\nTechShop con una semilla fija, separar\u00e1s las observaciones en dos grupos y\nmedir\u00e1s si un modelo lineal hecho a mano <strong>mejora</strong> una referencia muy simple:\npredecir siempre la media.</span>\n<span class=\"paragraph\"><strong>Se pide:</strong></span>\n<ol>\n<li>Con <code>np.random.default_rng(semilla)</code> simula <code>n_productos</code> (200) productos: <code>visitas</code> (enteros de\n   50 a 499), <code>valoracion</code> (uniforme de 1 a 5, con un decimal) y <code>unidades</code>\n   = <code>0.3 \u00b7 visitas + 15 \u00b7 valoracion + ruido</code>, donde el ruido es normal de\n   media 0 y desviaci\u00f3n 12; redondea las unidades a enteros. Construye <code>X</code>\n   <code>(200, 2)</code> e <code>y</code> <code>(200,)</code>, comprueba sus formas con <code>assert</code> y muestra\n   las tres primeras filas de <code>X</code> y los tres primeros valores de <code>y</code>.</li>\n<li>Comprueba la <strong>reproducibilidad</strong>: crea un segundo generador con la misma\n   semilla, repite la simulaci\u00f3n de <code>visitas</code> y comprueba con\n   <code>np.array_equal</code> que obtienes exactamente lo mismo.</li>\n<li><strong>Reparte</strong> con <code>rng.permutation</code>: 160 observaciones para entrenar y 40 para\n   evaluar. Crea <code>X_ent</code>, <code>X_prueba</code>, <code>y_ent</code>, <code>y_prueba</code>, muestra sus\n   <code>shape</code> y comprueba con <code>np.isin</code> que ning\u00fan \u00edndice est\u00e1 en los dos\n   grupos.</li>\n<li>Predice con <code>X_prueba @ w + b</code> usando <code>w = [0.25, 12.0]</code> y <code>b = 0.0</code>.\n   Muestra la <code>shape</code> de la predicci\u00f3n, el <strong>error medio absoluto</strong> (MAE) del\n   modelo y el MAE de la <strong>referencia</strong> (predecir siempre la media de\n   <code>y_ent</code>), ambos en el grupo de prueba y con 2 decimales. Indica cu\u00e1nto\n   mejora (en %).</li>\n<li><strong>Ajusta los pesos a mano</strong>: prueba al menos tres combinaciones de <code>w</code> y\n   <code>b</code> m\u00e1s y qu\u00e9date con la mejor (menor MAE en <strong>entrenamiento</strong>, no en\n   prueba). Muestra una tabla sencilla con las combinaciones probadas y,\n   para la elegida, su MAE en prueba.</li>\n<li>Muestra las <code>shape</code> de <code>X_ent.T</code>, de <code>X_ent.T @ X_ent</code> y de <code>X_ent * w</code>.\n   \u00bfQu\u00e9 diferencia hay entre <code>X_ent * w</code> y <code>X_ent @ w</code>?</li>\n<li><em>Ampliaci\u00f3n (opcional).</em> Ajusta los pesos \u00abde verdad\u00bb con\n   <code>np.linalg.lstsq</code>: a\u00f1ade una columna de unos a <code>X_ent</code> (para el sesgo) y\n   compara el MAE en prueba con el de tu mejor combinaci\u00f3n.</li>\n</ol>\n<span class=\"paragraph\">En \u00abTu respuesta\u00bb: \u00bfpor qu\u00e9 se eval\u00faa en el grupo de prueba y no en el de\nentrenamiento? \u00bfMejora tu modelo la referencia? Escribe tambi\u00e9n una frase\nsobre el l\u00edmite de trabajar con datos simulados.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "dNNg",
+      "code_hash": "b50502b0e5f57690c82f154c83d8ee42",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "yCnT",
+      "code_hash": "71d4fe889ffc31232f4a51e7e19bfb92",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Tu respuesta</strong></span>\n<span class=\"paragraph\"><em>(Escribe aqu\u00ed tu respuesta. Haz doble clic en esta celda para editarla.)</em></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "wlCL",
+      "code_hash": "b12705f52b5405369d42082df5b818af",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><hr />\n<h2 id=\"antes-de-entregar\">Antes de entregar</h2>\n<ul class=\"task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled/> He rellenado <code>alumno</code> al principio.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled/> No queda ninguna celda con error.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled/> He escrito la respuesta en todas las celdas \u00abTu respuesta\u00bb.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled/> He usado operaciones vectorizadas, sin bucles sobre los elementos.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled/> He comprobado las <code>shape</code> de <code>X</code> e <code>y</code> y he usado la misma m\u00e1scara en ambas.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled/> No he modificado los datos de partida (he trabajado con <code>.copy()</code>).</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled/> Mi c\u00f3digo tiene comentarios donde la l\u00f3gica no es evidente.</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}

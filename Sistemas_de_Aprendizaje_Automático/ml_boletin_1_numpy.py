@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.23.16"
+__generated_with = "0.25.2"
 app = marimo.App(width="medium")
 
 
@@ -37,7 +37,7 @@ def _(mo):
 @app.cell
 def _():
     # Rellena tus datos antes de empezar.
-    alumno = "Nombre y apellidos"
+    alumno = "Eduardo Alcaide Rodríguez"
     return
 
 
@@ -107,12 +107,7 @@ def _():
 
     import numpy as np
 
-    return np, time
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# BLOQUE 1 · FORMA Y TIPO
-# ─────────────────────────────────────────────────────────────────────────────
+    return (np,)
 
 
 @app.cell(hide_code=True)
@@ -167,13 +162,17 @@ def _(np):
     }
 
     # 1. Una línea por array
-    # Escribe aquí tu código
+    for _nombre, _arr in arrays_ej1.items():
+            print(f"{_nombre}: ndim={_arr.ndim}, shape={_arr.shape}, size={_arr.size}, dtype={_arr.dtype}")
 
     # 2. size = producto de los números de shape
-    # Escribe aquí tu código
+    assert ventas_tensor.size == np.prod(ventas_tensor.shape)
+    assert ventas_tensor.size == 4 * 7 * 3
 
     # 3. Los tres «de una línea»
-    # Escribe aquí tu código
+    print("columna_vector:\n", columna_vector)
+    print("columna_matriz:\n", columna_matriz)
+    print("fila_matriz:\n", fila_matriz)
     return
 
 
@@ -187,21 +186,18 @@ def _(mo):
 
     | Array | Tipo | Qué representa |
     |---|---|---|
-    | `precio_producto` | … | … |
-    | `visitas_semana` | … | … |
-    | `tabla_producto` | … | … |
-    | `ventas_tensor` | … | … |
-    | `columna_vector` | … | … |
-    | `columna_matriz` | … | … |
-    | `fila_matriz` | … | … |
+    | `precio_producto` | Escalar (0D) | El precio unitario de un solo producto en TechShop (24,90 €) |
+    | `visitas_semana` | Vector (1D) | El número de visitas registradas en cuatro periodos o productos. |
+    | `tabla_producto` | Matriz (2D) | Una tabla de 3 productos (filas) con 2 características cada uno: visitas y valoración (columnas). |
+    | `ventas_tensor` | Tensor (3D) | Un cubo de datos con 4 productos, 7 días de la semana y 3 medidas distintas por día. |
+    | `columna_vector` | Vector (1D) | Las visitas de los 3 productos extraídas como una lista plana sin estructura de columna. |
+    | `columna_matriz` | Matriz (2D) | Las mismas visitas de los 3 productos, pero manteniendo la formas de tabla de 3 filas × 1 columna. |
+    | `fila_matriz` | Matriz (2D) | Una tabla de una única observación (1 fila) con 3 características (3 columnas). |
 
     **Preguntas.**
 
-    1. ¿Por qué `tabla_producto` es `float64` si las visitas son enteros?
-    2. De `columna_vector` y `columna_matriz`, ¿cuál pasarías a scikit-learn como
-       `X` con una sola característica y cuál como `y`? ¿Por qué?
-
-    *(Escribe aquí tu respuesta. Haz doble clic en esta celda para editarla.)*
+    1. Porque un array de NumPy solo puede almacenar un solo tipo de dato (dtype) en todos sus elementos. Como la segunda columna contiene decimales (4.2, 4.8, 2.5), NumPy nos da automáticamente los enteros de las visitas a float64 para que no perdamos los decimales.
+    2. Pasaría columna_matriz (forma (3, 1)) como X, porque scikit-leanr obliga que las características sean siempre una matriz 2D de forma (n_observaciones, n_caracteristicas), incluso cuando solo hay una característica. Pasaría columna_vector (forma (3,1)) como "y" porque la variable objetivo debe ser un vector 1D con un valor por cada observación.
     """)
     return
 
@@ -251,16 +247,36 @@ def _(np):
     stock_almacen = np.array([100, 120, 90], dtype=np.int8)
 
     # 1. Mezcla de tipos
-    # Escribe aquí tu código
+    arr_numeros = np.array(mezcla_numeros)
+    arr_texto = np.array(mezcla_con_texto)
+    print("arr_numeros:", arr_numeros, "| dtype:", arr_numeros.dtype)
+    print("arr_texto:", arr_texto, "| dtype:", arr_texto.dtype)
 
     # 2. Decimales a enteros: truncar frente a redondear
-    # Escribe aquí tu código
+    val_truncadas = valoraciones_decimales.astype(int)
+    val_redondeadas = np.round(valoraciones_decimales).astype(int)
+    print("Truncadas con astype(int):", val_truncadas)
+    print("Redondeadas y luego int:", val_redondeadas)
 
     # 3. Desbordamiento
-    # Escribe aquí tu código
+    stock_desbordado = stock_almacen + 50
+    stock_correcto = stock_almacen.astype(np.int64) + 50
+    print("Desbordado (int8 + 50):", stock_desbordado, "| dtype:", stock_desbordado.dtype)
+    print("Corregido (int64 + 50):", stock_correcto, "| dtype:", stock_correcto.dtype)
 
     # 4. Funciones de creación
-    # Escribe aquí tu código
+    precios_equi = np.linspace(10, 50, 5)
+    matriz_ceros = np.zeros((3, 4), dtype=float)
+    matriz_identidad = np.eye(3)
+    enteros_salto = np.arange(0, 100, 25)
+
+    for _nom, _a in [
+        ("precios_equi", precios_equi),
+        ("matriz_ceros", matriz_ceros),
+        ("matriz_identidad", matriz_identidad),
+        ("enteros_salto", enteros_salto),
+    ]:
+        print(f"{_nom}: shape={_a.shape}, dtype={_a.dtype}\n{_a}")
     return
 
 
@@ -269,7 +285,11 @@ def _(mo):
     mo.md(r"""
     **Tu respuesta**
 
-    *(Escribe aquí tu respuesta. Haz doble clic en esta celda para editarla.)*
+    - Mezcla con texto: Como todos los elementos de un array deben compartir el mismo dtype, NumPy busca el tipo más general capaz de representar todos los valores sin perder información. Un número puede representarse como texto ("3", "4.5"), pero un texto genérico no siempre puede convertirse a número; por eso todo el array pasa a ser de cadenas (`<U32`), lo que impide hacer cálculos aritméticos directamente sobre él.
+
+    - Peligro del apartado 3: Un int solo almacena valores entre -128 y 127. Al sumar 50 a [100, 120, 90], el resultado supera 127 y da la vuelta a números negativos ([-106, -86, -116]) de forma silenciosa, sin lanzar ninguna excepción. En producción o en un modelo de ML esto introduce datos corruptos imposibles de detectar si no se comprueba el tipo o el rango.
+
+    - Error en np.zeros(3, 4): Lanzaría un TypeError: Cannot interpret '4' as a data type, porque el primer argumento de np.zeros es la forma (shape) y el segundo es el dtype. Para crear una matriz de 3 × 4 hay que pasar las dimensiones agrupadas en una tupla: np.zeros((3, 4)).
     """)
     return
 
@@ -321,16 +341,32 @@ def _(np):
     tensor_ventas = np.arange(8 * 7 * 2).reshape(8, 7, 2)
 
     # 1. X e y
-    # Escribe aquí tu código
+    X_ej3 = np.column_stack([visitas, valoraciones, precios])
+    y_ej3 = unidades.copy()
+    print(f"X_ej3: shape={X_ej3.shape}, dtype={X_ej3.dtype}")
+    print(f"y_ej3: shape={y_ej3.shape}, dtype={y_ej3.dtype}")
+    assert X_ej3.ndim == 2
+    assert y_ej3.ndim == 1
+    assert X_ej3.shape[0] == y_ej3.shape[0]
 
     # 2. Una sola característica
-    # Escribe aquí tu código
+    X_visitas_reshape = visitas.reshape(-1, 1)
+    X_visitas_newaxis = visitas[:, np.newaxis]
+    visitas_fila = visitas.reshape(1, -1)
+    print("visitas.shape:", visitas.shape)
+    print("X_visitas_reshape.shape:", X_visitas_reshape.shape)
+    print("X_visitas_newaxis.shape:", X_visitas_newaxis.shape)
+    print("visitas_fila.shape:", visitas_fila.shape)
 
     # 3. De tensor a matriz, una fila por producto
-    # Escribe aquí tu código
+    matriz_ventas_ok = tensor_ventas.reshape(8, -1)
+    print("matriz_ventas_ok.shape:", matriz_ventas_ok.shape)
+    assert np.array_equal(matriz_ventas_ok[0], tensor_ventas[0].ravel())
 
     # 4. El reshape que no avisa
-    # Escribe aquí tu código
+    matriz_ventas_mal = tensor_ventas.reshape(7, -1)
+    print("matriz_ventas_mal.shape:", matriz_ventas_mal.shape)
+    print("¿Coincide la fila 0 con el producto 0?:", np.array_equal(matriz_ventas_mal[0], tensor_ventas[0].ravel()))
     return
 
 
@@ -339,14 +375,11 @@ def _(mo):
     mo.md(r"""
     **Tu respuesta**
 
-    *(Escribe aquí tu respuesta. Haz doble clic en esta celda para editarla.)*
+    - Mensaje de scikit-learn y solución: Si se pasa visitas con forma (8,) como X, scikit-learn lanza un ValueError: Expected 2D array, got 1D array instead y sugiere explícitamente redimensionarlo con .reshape(-1, 1) (si es una sola característica con 8 observaciones) o .reshape(1, -1) (si fuera una sola observación con 8 características). En este caso se arregla con visitas.reshape(-1, 1) o visitas[:, np.newaxis].
+
+    - Por qué no da error el apartado 4: tensor_ventas tiene 8 * 7 * 2 = 112 elementos. Como 112 es divisible entre 7 (112 / 7 = 16), NumPy acepta reshape(7, -1) y crea una matriz (7, 16) sin quejarse. Sin embargo, el resultado es semánticamente incorrecto: al leer los datos en orden secuencial, cada fila mezcla días y medidas de productos distintos, rompiendo la correspondencia entre filas y productos.
     """)
     return
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# BLOQUE 2 · SELECCIONAR Y OPERAR
-# ─────────────────────────────────────────────────────────────────────────────
 
 
 @app.cell(hide_code=True)
@@ -471,7 +504,7 @@ def _(mo):
 
 
 @app.cell
-def _(np, time):
+def _(np):
     # Datos del ejercicio (no los modifiques)
     precios_prod = np.array([43.96, 186.45, 59.90, 312.00, 27.50, 94.38])
     costes_prod = np.array([30.00, 140.00, 41.50, 250.00, 18.20, 70.00])
@@ -577,11 +610,6 @@ def _(mo):
     *(Escribe aquí tu respuesta. Haz doble clic en esta celda para editarla.)*
     """)
     return
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# BLOQUE 3 · ESTADÍSTICA Y DATOS INCOMPLETOS
-# ─────────────────────────────────────────────────────────────────────────────
 
 
 @app.cell(hide_code=True)
@@ -754,11 +782,6 @@ def _(mo):
     return
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# BLOQUE 4 · HACIA EL MODELO
-# ─────────────────────────────────────────────────────────────────────────────
-
-
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -895,7 +918,7 @@ def _(mo):
 
 
 @app.cell
-def _(np):
+def _():
     # Datos del ejercicio (no los modifiques)
     semilla = 2026
     n_productos = 200
